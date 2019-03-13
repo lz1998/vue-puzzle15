@@ -145,7 +145,8 @@
           this.endTime=(new Date()).getTime();
           this.result=this.endTime-this.startTime;
           this.isScramble=false;
-          //TODO 提交vuex成绩或localStorage
+
+          //保存成绩
           let results=localStorage.getItem("results");
           if(results==null){
             results=[];
@@ -153,7 +154,8 @@
             results=JSON.parse(results);
           }
           results.push({
-            time:this.result,
+            time:this.startTime,
+            result:this.result,
             moves:this.movesCount
           });
           localStorage.setItem("results",JSON.stringify(results))

@@ -4,12 +4,17 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import Vuex from 'vuex';
-import FastClick from 'fastclick';
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
+import VueClipboard from 'vue-clipboard2';
+import ECharts from 'vue-echarts/components/ECharts';
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/title'
+import 'echarts/lib/chart/line';
+Vue.component('chart', ECharts);
 
 Vue.use(Vuex);
-FastClick.attach(document.body);
+Vue.use(VueClipboard);
 Vue.use(MintUI);
 Vue.config.productionTip = false
 
