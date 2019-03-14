@@ -4,15 +4,17 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import Vuex from 'vuex';
+
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
+import { ColorPicker } from 'element-ui';
 import VueClipboard from 'vue-clipboard2';
 import ECharts from 'vue-echarts/components/ECharts';
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/chart/line';
 Vue.component('chart', ECharts);
-
+Vue.use(ColorPicker);
 Vue.use(Vuex);
 Vue.use(VueClipboard);
 Vue.use(MintUI);

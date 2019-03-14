@@ -1,5 +1,5 @@
 <template>
-  <div class="game" :style="{color:this.fontColor}">
+  <div class="game" :style="{color:this.fontColor}" @touchmove.prevent="">
     <div class="title">Puzzle15</div>
     <div class="game-panel">
       <div class="row" v-for="row in game_map">
@@ -23,11 +23,11 @@
     name: "Game",
     data() {
       return{
-        color0:"#f3c500",
-        color1:"#1bae5d",
-        color2:"#217fbc",
-        color3:"#ea4b35",
-        fontColor:"#000000",
+        color0:"rgba(243,197,0,1)",
+        color1:"rgba(31,169,93,1)",
+        color2:"rgba(39,117,167,1)",
+        color3:"rgba(234,75,53,1)",
+        fontColor:"rgba(0,0,0,1)",
         game_map:[
           [1,2,3,4],
           [5,6,7,8],
@@ -56,7 +56,7 @@
           "display":"table",
           "border-radius":" 2vw",
           "user-select":"none",
-          "background":"#f3c500"
+          "background":"rgba(243,197,0,1)"
         };
 
         let col = (num - 1) % 4;
@@ -255,19 +255,19 @@
       this.color3=localStorage.getItem("color3");
       this.fontColor=localStorage.getItem("fontColor");
       if(this.color0==null){
-        this.color0="#f3c500";
+        this.color0="rgba(243,197,0,1)";
       }
       if(this.color1==null){
-        this.color1="#1bae5d";
+        this.color1="rgba(31,169,93,1)";
       }
       if(this.color2==null){
-        this.color2="#217fbc";
+        this.color2="rgba(39,117,167,1)";
       }
       if(this.color3==null){
-        this.color3="#ea4b35";
+        this.color3="rgba(234,75,53,1)";
       }
       if(this.fontColor==null){
-        this.fontColor="#000000";
+        this.fontColor="rgba(0,0,0,1)";
       }
       document.querySelector('body').setAttribute('style', 'background:'+this.color0);
     }
@@ -277,7 +277,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .game
     margin:0
-    padding:15px 0 10px 0
+    padding:10px 0 10px 0
     width:100%
     .title
       font-size: 12vw;
@@ -286,7 +286,7 @@
       box-sizing: border-box;
       width: 90vw;
       height: 90vw;
-      margin: 2vh auto 0;
+      margin: 1vh auto 0;
       padding: 0;
       border-radius: 15px;
       .row

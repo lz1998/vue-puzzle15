@@ -3,42 +3,42 @@
     <h2 style="text-align: center;">Settings</h2>
     <mt-cell title="背景色">
       <span>
-        <mt-field style="width: 100px" type="text" v-model="color0"></mt-field>
+        <mt-field style="width: 200px" type="text" v-model="color0"></mt-field>
       </span>
       <span>
-        <mt-field style="width: 80px" type="color" v-model="color0"></mt-field>
+        <el-color-picker size="small" show-alpha v-model="color0"></el-color-picker>
       </span>
     </mt-cell>
     <mt-cell title="内层色">
       <span>
-        <mt-field style="width: 100px" type="text" v-model="color1"></mt-field>
+        <mt-field style="width: 200px" type="text" v-model="color1"></mt-field>
       </span>
       <span>
-        <mt-field style="width: 80px" type="color" v-model="color1"></mt-field>
+       <el-color-picker size="small" show-alpha v-model="color1"></el-color-picker>
       </span>
     </mt-cell>
     <mt-cell title="中层色">
       <span>
-        <mt-field style="width: 100px" type="text" v-model="color2"></mt-field>
+        <mt-field style="width: 200px" type="text" v-model="color2"></mt-field>
       </span>
       <span>
-        <mt-field style="width: 80px" type="color" v-model="color2"></mt-field>
+        <el-color-picker size="small" show-alpha v-model="color2"></el-color-picker>
       </span>
     </mt-cell>
     <mt-cell title="外层色">
       <span>
-        <mt-field style="width: 100px" type="text" v-model="color3"></mt-field>
+        <mt-field style="width: 200px" type="text" v-model="color3"></mt-field>
       </span>
       <span>
-        <mt-field style="width: 80px" type="color" v-model="color3"></mt-field>
+        <el-color-picker size="small" show-alpha v-model="color3"></el-color-picker>
       </span>
     </mt-cell>
     <mt-cell title="字体色">
       <span>
-        <mt-field style="width: 100px" type="text" v-model="fontColor"></mt-field>
+        <mt-field style="width: 200px" type="text" v-model="fontColor"></mt-field>
       </span>
       <span>
-        <mt-field style="width: 80px" type="color" v-model="fontColor"></mt-field>
+        <el-color-picker size="small" show-alpha v-model="fontColor"></el-color-picker>
       </span>
     </mt-cell>
     <mt-button @click.native="colorChange" class="save-button" type="primary">Save</mt-button>
@@ -49,11 +49,11 @@
   export default {
     data(){
       return{
-        color0:"#f3c500",
-        color1:"#1bae5d",
-        color2:"#217fbc",
-        color3:"#ea4b35",
-        fontColor:"#000000"
+        color0:"rgba(243,197,0,1)",
+        color1:"rgba(31,169,93,1)",
+        color2:"rgba(39,117,167,1)",
+        color3:"rgba(234,75,53,1)",
+        fontColor:"rgba(0,0,0,1)"
       }
     },
     methods:{
@@ -71,21 +71,23 @@
       this.color2=localStorage.getItem("color2");
       this.color3=localStorage.getItem("color3");
       this.fontColor=localStorage.getItem("fontColor");
+
       if(this.color0==null){
-        this.color0="#f3c500";
+        this.color0="rgba(243,197,0,1)";
       }
       if(this.color1==null){
-        this.color1="#1bae5d";
+        this.color1="rgba(31,169,93,1)";
       }
       if(this.color2==null){
-        this.color2="#217fbc";
+        this.color2="rgba(39,117,167,1)";
       }
       if(this.color3==null){
-        this.color3="#ea4b35";
+        this.color3="rgba(234,75,53,1)";
       }
       if(this.fontColor==null){
-        this.fontColor="#000000";
+        this.fontColor="rgba(0,0,0,1)";
       }
+
     }
   };
 </script>
