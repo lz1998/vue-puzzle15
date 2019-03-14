@@ -55,14 +55,24 @@
 
               ms=ms.length>2?ms:'0'+ms;
               ms=ms.length>2?ms:'0'+ms;
+              let str='';
               if(min==0){
-                return "Time:"+sec+"."+ms;
+                str= "Time:"+sec+"."+ms;
               }
               else{
                 min=min.length>1?min:'0'+min;
                 sec=sec.length>1?sec:'0'+sec;
-                return "Time:"+min+":"+sec+"."+ms;
+                str= "Time:"+min+":"+sec+"."+ms;
               }
+              str=str+"<br/>";
+              let date = new Date(params[0].value[0]);
+              str+=date.getFullYear() + '-';
+              str+= (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+              str+= (date.getDate()<10?("0"+date.getDate()):date.getDate())+' ';
+              str+= (date.getHours()<10?("0"+date.getHours()):date.getHours()) + ':';
+              str+= (date.getMinutes()<10?("0"+date.getMinutes()):date.getMinutes())+":";
+              str+= (date.getSeconds()<10?("0"+date.getSeconds()):date.getSeconds());
+              return str;
             }
           },
           legend:{
@@ -70,7 +80,19 @@
           },
           grid: {x:50,y: 70, y2:30, x2:30},
           xAxis: {
-            type: 'time',
+            type: 'category',
+            axisLabel:{
+              formatter:function(timestamp){
+                let time = new Date(timestamp);
+                let str=time.getFullYear() + '-';
+                str+= (time.getMonth() + 1 < 10 ? '0' + (time.getMonth() + 1) : time.getMonth() + 1) + '-';
+                str+= (time.getDate()<10?("0"+time.getDate()):time.getDate())+' ';
+                str+= (time.getHours()<10?("0"+time.getHours()):time.getHours()) + ':';
+                str+= (time.getMinutes()<10?("0"+time.getMinutes()):time.getMinutes());
+
+                return str;
+              }
+            }
           },
           yAxis: {
             type: 'value',

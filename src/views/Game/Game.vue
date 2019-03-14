@@ -3,7 +3,7 @@
     <div class="title">Puzzle15</div>
     <div class="game-panel">
       <div class="row" v-for="row in game_map">
-        <div :style="getBlockStyle(num)" v-for="num in row" @touchstart="onTouch(num)">
+        <div :style="getBlockStyle(num)" v-for="num in row" @touchstart="onTouch(num)" @click="onTouch(num)" >
           <span v-text="num" class="num"></span>
         </div>
       </div>
@@ -56,23 +56,23 @@
           "display":"table",
           "border-radius":" 2vw",
           "user-select":"none",
-          "background-color":"#f3c500",
+          "background":"#f3c500"
         };
 
         let col = (num - 1) % 4;
         let row = parseInt((num - 1) / 4);
         if(num==0){
-          s["background-color"]=this.color0;
-          s["color"]=this.color0;
+          s["background"]='rgba(0,0,0,0)';
+          s["color"]='rgba(0,0,0,0)';
         }
         else if(col==0 || row==0){
-          s["background-color"]=this.color3;
+          s["background"]=this.color3;
         }
         else if(col==1 || row==1){
-          s["background-color"]=this.color2;
+          s["background"]=this.color2;
         }
         else if(col==2 || row==2){
-          s["background-color"]=this.color1;
+          s["background"]=this.color1;
         }
         return s;
 
@@ -254,7 +254,7 @@
       this.color2=localStorage.getItem("color2");
       this.color3=localStorage.getItem("color3");
       this.fontColor=localStorage.getItem("fontColor");
-      if(this.color0==null || this.color0.length==5 || this.color0.length==9){
+      if(this.color0==null){
         this.color0="#f3c500";
       }
       if(this.color1==null){
@@ -269,7 +269,7 @@
       if(this.fontColor==null){
         this.fontColor="#000000";
       }
-      document.querySelector('body').setAttribute('style', 'background-color:'+this.color0);
+      document.querySelector('body').setAttribute('style', 'background:'+this.color0);
     }
   };
 </script>
