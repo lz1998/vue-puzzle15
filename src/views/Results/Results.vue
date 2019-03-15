@@ -6,7 +6,7 @@
     <mt-cell-swipe
       v-for="result in getReversedResults()"
       :right="getRightButtons(result.time)"
-      :title="result.resultText"
+      :title="timeFormat(result.result)"
       :label="result.moves+' moves'"
       :key="result.time"
       class="result">
@@ -122,23 +122,23 @@
         }else{
           results=JSON.parse(results);
         }
-        for(let i=0;i<results.length;i++){
-          let ms=(results[i].result%1000).toString();
-          let sec=parseInt(results[i].result/1000).toString();
-          let min=parseInt(sec/60).toString();
-          sec=(sec%60).toString();
-
-          min=min.length>1?min:'0'+min;
-          sec=sec.length>1?sec:'0'+sec;
-          ms=ms.length>2?ms:'0'+ms;
-          ms=ms.length>2?ms:'0'+ms;
-          results[i].resultText=min+":"+sec+"."+ms;
-        }
         return results;
       },
     },
 
     methods:{
+      timeFormat(timestamp){
+        let ms=(timestamp%1000).toString();
+        let sec=parseInt(timestamp/1000).toString();
+        let min=parseInt(sec/60).toString();
+        sec=(sec%60).toString();
+
+        min=min.length>1?min:'0'+min;
+        sec=sec.length>1?sec:'0'+sec;
+        ms=ms.length>2?ms:'0'+ms;
+        ms=ms.length>2?ms:'0'+ms;
+        return min+":"+sec+"."+ms;
+      },
       getOutputText(){
         return JSON.stringify(this.results);
       },
