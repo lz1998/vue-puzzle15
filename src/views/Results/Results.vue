@@ -2,10 +2,10 @@
   <div class="results">
     <h2 style="text-align: center;">Results</h2>
     <mt-button @click.native="chartControl" class="show-chart-button" type="primary" >折线图</mt-button>
-    <mt-button v-clipboard:copy="outputText" v-clipboard:success="outputSuccess" v-clipboard:error="outputError" class="output-button" type="primary" >导出成绩</mt-button>
+    <mt-button v-clipboard:copy="getOutputText()" v-clipboard:success="outputSuccess" v-clipboard:error="outputError" class="output-button" type="primary" >导出成绩</mt-button>
     <mt-cell-swipe
-      v-for="result in results"
-      :right="rightButtons"
+      v-for="result in getReversedResults()"
+      :right="getRightButtons(result.time)"
       :title="result.resultText"
       :label="result.moves+' moves'"
       :key="result.time"
@@ -28,18 +28,6 @@
     name: "Results",
     data(){
       return{
-        rightButtons : [
-          {
-            content: '编辑',
-            style: { background: 'lightgray', color: '#fff' ,"font-size":"20px"},
-            handler: () => this.$messagebox('暂时不能编辑')
-          },
-          {
-            content: '删除',
-            style: { background: 'red', color: '#fff',"font-size":"20px" },
-            handler: () => this.$messagebox('delete')
-          }
-        ],
         chartShow:false,
         chartData:[],
         chartOptions:{
@@ -148,26 +136,54 @@
         }
         return results;
       },
-      outputText(){
-        return localStorage.getItem("results");
-      }
     },
 
     methods:{
+      getOutputText(){
+        return JSON.stringify(this.results);
+      },
+      getReversedResults(){
+        //为了防止使用缓存，不能用计算属性
+        let reversedResults=[];
+        this.results.forEach((item) => reversedResults.unshift(item));
+        return reversedResults;
+      },
+      getRightButtons(time) {
+        //查看、删除按钮
+        return [
+          {
+            content: '查看',
+            style: { background: 'lightgray', color: '#fff' ,"font-size":"20px"},
+            handler: () => {
+              this.$messagebox("暂时没用");
+            }
+          },
+          {
+            content: '删除',
+            style: { background: 'red', color: '#fff',"font-size":"20px" },
+            handler: () => {
+              for(let i=0;i<this.results.length;i++){
+                if(this.results[i].time==time){
+                  this.results.splice(i,1);
+                }
+              }
+              localStorage.setItem("results",JSON.stringify(this.results));
+              this.$messagebox("已删除");
+              console.log(this.results);
+              console.log(this.outputText);
+              this.$forceUpdate();//强制刷新reversedResults
+            }
+          }
+        ]
+      },
       chartControl(){
-
+        //控制是否显示折线图
         let arr=[];
         this.results.forEach(function(item){
-
-
           let tmp=[item.time,item.result];
           arr.push(tmp);
-          console.log(tmp);
         })
-        //this.chartData=arr;
         this.chartOptions.series[0].data=arr;
-
-        console.log(this.chartData)
         this.chartShow=!this.chartShow;
       },
       outputSuccess(){
@@ -176,7 +192,6 @@
       outputError(){
         this.$messagebox("error");
       }
-
     }
   };
 </script>

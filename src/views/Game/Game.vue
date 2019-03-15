@@ -3,7 +3,7 @@
     <div class="title">Puzzle15</div>
     <div class="game-panel">
       <div class="row" v-for="row in game_map">
-        <div :style="getBlockStyle(num)" v-for="num in row" @touchstart="onTouch(num)" @click="onTouch(num)" >
+        <div :style="getBlockStyle(num)" v-for="num in row" @touchstart="onTouch(num)" @click="onTouch(num)" @mouseover="onTouch(num)">
           <span v-text="num" class="num"></span>
         </div>
       </div>
