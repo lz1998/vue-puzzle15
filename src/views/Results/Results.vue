@@ -6,7 +6,7 @@
     <mt-cell-swipe
       v-for="result in getReversedResults()"
       :right="getRightButtons(result.time)"
-      :title="timeFormat(result.result)"
+      :title="resultFormat(result.result)"
       :label="result.moves+' moves'"
       :key="result.time"
       class="result">
@@ -67,7 +67,7 @@
           legend:{
             data:['折线图数据']
           },
-          grid: {x:50,y: 70, y2:30, x2:30},
+          grid: {x:50,y: 70, y2:30, x2:50},
           xAxis: {
             type: 'category',
             axisLabel:{
@@ -109,6 +109,35 @@
             name: '折线图数据',
             type: 'line',
             data:[],
+            markLine: {
+              symbol:'none',
+              data: [
+                {type: 'average', name: '平均值'}
+              ],
+              label:{
+                formatter(param){
+                  let ms=parseInt(param.data.value%1000).toString();
+                  let sec=parseInt(param.data.value/1000).toString();
+                  let min=parseInt(sec/60).toString();
+                  sec=(sec%60).toString();
+                  ms=ms.length>2?ms:'0'+ms;
+                  ms=ms.length>2?ms:'0'+ms;
+                  let str='';
+                  if(min==0){
+                    str= sec+"."+ms;
+                  }
+                  else{
+                    min=min.length>1?min:'0'+min;
+                    sec=sec.length>1?sec:'0'+sec;
+                    str= min+":"+sec+"."+ms;
+                  }
+                  return str;
+                }
+              }
+
+
+
+            }
           }]
         }
 
@@ -127,9 +156,10 @@
     },
 
     methods:{
-      timeFormat(timestamp){
-        let ms=(timestamp%1000).toString();
-        let sec=parseInt(timestamp/1000).toString();
+      resultFormat(ms){
+        //格式化成绩
+        let sec=parseInt(ms/1000).toString();
+        ms=(ms%1000).toString();
         let min=parseInt(sec/60).toString();
         sec=(sec%60).toString();
 
@@ -139,11 +169,8 @@
         ms=ms.length>2?ms:'0'+ms;
         return min+":"+sec+"."+ms;
       },
-      getOutputText(){
-        return JSON.stringify(this.results);
-      },
       getReversedResults(){
-        //为了防止使用缓存，不能用计算属性
+        //反转成绩，为了防止使用缓存，不能用计算属性
         let reversedResults=[];
         this.results.forEach((item) => reversedResults.unshift(item));
         return reversedResults;
@@ -176,6 +203,16 @@
           }
         ]
       },
+      getOutputText(){
+        //导出成绩
+        return JSON.stringify(this.results);
+      },
+      outputSuccess(){
+        this.$messagebox("已复制");
+      },
+      outputError(){
+        this.$messagebox("error");
+      },
       chartControl(){
         //控制是否显示折线图
         let arr=[];
@@ -185,12 +222,6 @@
         })
         this.chartOptions.series[0].data=arr;
         this.chartShow=!this.chartShow;
-      },
-      outputSuccess(){
-        this.$messagebox("已复制");
-      },
-      outputError(){
-        this.$messagebox("error");
       }
     }
   };
@@ -223,12 +254,12 @@
       height:100%
       overflow :auto
       transition: all 0.5s
-      background :rgba(256,256,256,0.8)
+      background :rgba(256,256,256,0.9)
       backdrop-filter :blur(10px)
       .chart-main
         width:100%
         .chart
-          width:90%
+          width:100%
           margin:10px auto
       .close-chart-button
         margin:10px

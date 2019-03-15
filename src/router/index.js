@@ -12,7 +12,6 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
       component: Home,
       children:[
         {path:'/',redirect:'/game'},
@@ -21,10 +20,5 @@ export default new Router({
         {path:'/settings',component:Settings}
       ]
     },
-    // {
-    //   path: '/login',
-    //   name: 'Login',
-    //   component: Login
-    // }
   ]
 })

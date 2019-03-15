@@ -10,7 +10,7 @@
     </div>
     <div class="container">
       <div class="status">
-        <p class="time" v-text="resultText"></p>
+        <p class="time" v-text="resultFormat(result)"></p>
         <p class="moves" v-text="'Moves:'+movesCount"></p>
       </div>
       <mt-button class="scramble-button" @click.native="scramble" type="primary">打乱</mt-button>
@@ -38,13 +38,24 @@
         startTime:0,
         endTime:0,
         result:0,
-        resultText:'00:00.000',
         isStart:false,
         isScramble:false,
         timer:null,
       }
     },
     methods:{
+      resultFormat(ms){
+        let sec=parseInt(ms/1000).toString();
+        ms=(ms%1000).toString();
+        let min=parseInt(sec/60).toString();
+        sec=(sec%60).toString();
+
+        min=min.length>1?min:'0'+min;
+        sec=sec.length>1?sec:'0'+sec;
+        ms=ms.length>2?ms:'0'+ms;
+        ms=ms.length>2?ms:'0'+ms;
+        return min+":"+sec+"."+ms;
+      },
       getBlockStyle(num){
         let s = {
           "width":" 23%",
@@ -83,10 +94,10 @@
           this.isStart=true;
           this.startTime=(new Date()).getTime();
         }
-        console.log(num)
+        //console.log(num)
         if(num!==0){
 
-          var row0,col0,row,col;
+          let row0,col0,row,col;
           for(let i=0;i<4;i++)
             for(let j=0;j<4;j++){
               if(this.game_map[i][j]===num)
@@ -105,6 +116,7 @@
             if(col>col0)
             {
               for(let j=col0;j<col;j++) {
+                //这里不用考虑实时显示问题，如果movesCount改变，会自动刷新整个页面
                 this.game_map[row][j]=this.game_map[row][j+1];
                 this.movesCount++;
               }
@@ -112,6 +124,7 @@
             }
             if(col<col0) {
               for (let j = col0; j > col; j--) {
+                //这里不用考虑实时显示问题，如果movesCount改变，会自动刷新整个页面
                 this.game_map[row][j] = this.game_map[row][j - 1];
                 this.movesCount++;
               }
@@ -123,6 +136,7 @@
             if(row>row0)
             {
               for(let i=row0;i<row;i++) {
+                //这里不用考虑实时显示问题，如果movesCount改变，会自动刷新整个页面
                 this.game_map[i][col]=this.game_map[i+1][col];
                 this.movesCount++;
               }
@@ -131,6 +145,7 @@
             if(row<row0)
             {
               for(let i=row0;i>row;i--) {
+                //这里不用考虑实时显示问题，如果movesCount改变，会自动刷新整个页面
                 this.game_map[i][col]=this.game_map[i-1][col];
                 this.movesCount++;
               }
@@ -160,22 +175,12 @@
           });
           localStorage.setItem("results",JSON.stringify(results))
         }
-
-        this.$forceUpdate();//刷新页面
+        //这里不需要强制刷新界面，如果movesCount改变，会自动刷新，不改变就不需要刷新
+        //this.$forceUpdate();
       },
-      scramble () {
-        console.log("scramble");
-        let nums = new Array(16);
-        let sum = 0;
-        for(let i=0;i<16;i++)
-          nums[i]=i;
-        for(let i=15;i>0;i--){
-          let rnd=Math.floor(Math.random()*i);
-          let t=nums[rnd];
-          nums[rnd]=nums[i];
-          nums[i]=t;
-        }//洗牌算法，随机打乱
-
+      isSolvable(nums){
+        //判断是否可解，计算逆序数，偶数可解
+        let sum=0;
         for(let i=0;i<16;i++){
           if(nums[i]===0){
             sum+=parseInt(i/4)+(i+1)%4;
@@ -184,10 +189,26 @@
           for(let j=0;j<16-i;j++)
             if(nums[j+i]<nums[i])
               sum++;
-        }//计算逆序数
+        }
+        return sum%2===0;
+      },
+      scramble () {
+        //打乱
+        let nums=[];
+        for(let i=0;i<16;i++)
+          nums.push(i);
 
-        if(sum%2===1){
-          console.log("change");
+        //随机打乱
+        // nums.sort((a,b)=>{return Math.random() > 0.5 ? -1 : 1;});
+        for(let i=15;i>0;i--){
+          let rnd=Math.floor(Math.random()*i);
+          let t=nums[rnd];
+          nums[rnd]=nums[i];
+          nums[i]=t;
+        }
+
+        //如果不可被还原，交换任意2个不为0的数字
+        if(!this.isSolvable(nums)){
           let r1=Math.floor(Math.random()*16);
           if(nums[r1]===0)
             if(++r1>15)
@@ -200,15 +221,17 @@
           t=nums[r1];
           nums[r1]=nums[r2];
           nums[r2]=t;
+        }
 
-        }//逆序数是奇数，交换任意2个不为0的
-
-        for(let i=0;i<16;i++)
-          this.game_map[parseInt(i/4)][i%4]=nums[i];
+        for(let i=0;i<16;i++){
+          //Vue中数组必须使用$set方法或者最后调用this.$forceUpdate()，否则不会界面不会随着data改变刷新
+          this.$set(this.game_map[parseInt(i/4)],i%4,nums[i]);
+          //this.game_map[parseInt(i/4)][i%4]=nums[i];
+        }
         this.isStart=false;
         this.movesCount=0;
         this.isScramble=true;
-        this.$forceUpdate();
+        //this.$forceUpdate();
       },
       isWin(){
         if(this.game_map[0][0]!=1)return false;
@@ -234,17 +257,6 @@
       const timer = setInterval(() => {
         if(this.isStart)
           this.result=(new Date()).getTime()-this.startTime;
-        let ms=(this.result%1000).toString();
-        let sec=parseInt(this.result/1000).toString();
-        let min=parseInt(sec/60).toString();
-        sec=(sec%60).toString();
-
-        min=min.length>1?min:'0'+min;
-        sec=sec.length>1?sec:'0'+sec;
-        ms=ms.length>2?ms:'0'+ms;
-        ms=ms.length>2?ms:'0'+ms;
-        this.resultText=min+":"+sec+"."+ms;
-        console.log(this.resultText);
       },93);
       this.$once('hook:beforeDestroy', () => {
         clearInterval(timer);
