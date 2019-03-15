@@ -1,6 +1,8 @@
 <template>
   <div class="results">
     <h2 style="text-align: center;">Results</h2>
+    <mt-button @click.native="chartControl" class="show-chart-button" type="primary" >折线图</mt-button>
+    <mt-button v-clipboard:copy="outputText" v-clipboard:success="outputSuccess" v-clipboard:error="outputError" class="output-button" type="primary" >导出成绩</mt-button>
     <mt-cell-swipe
       v-for="result in results"
       :right="rightButtons"
@@ -9,8 +11,7 @@
       :key="result.time"
       class="result">
     </mt-cell-swipe>
-    <mt-button @click.native="chartControl" class="show-chart-button" type="primary" >折线图</mt-button>
-    <mt-button v-clipboard:copy="outputText" v-clipboard:success="outputSuccess" v-clipboard:error="outputError" class="output-button" type="primary" >导出成绩</mt-button>
+
     <div class="chart-wrapper" v-show="chartShow">
       <div class="chart-main">
         <chart :options="chartOptions" :autoresize="true" class="chart"></chart>
