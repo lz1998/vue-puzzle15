@@ -64,10 +64,25 @@
               return str;
             }
           },
+          toolbox:{
+            show:true,
+            feature:{
+              restore : {
+                show : true,
+                title : '还原'
+              }
+            }
+          },
+          dataZoom: {
+            type:"slider",
+            show: true,
+            start : 0,
+            labelFormatter(value){console.log(value);return value},
+          },
           legend:{
             data:['折线图数据']
           },
-          grid: {x:50,y: 70, y2:30, x2:50},
+          grid: {x:50,y: 70, x2:50, y2:60},
           xAxis: {
             type: 'category',
             axisLabel:{
