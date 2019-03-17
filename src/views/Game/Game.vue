@@ -266,19 +266,19 @@
       this.color2=localStorage.getItem("color2");
       this.color3=localStorage.getItem("color3");
       this.fontColor=localStorage.getItem("fontColor");
-      if(this.color0==null){
+      if(this.color0==null || this.color0==='null'){
         this.color0="rgba(243,197,0,1)";
       }
-      if(this.color1==null){
+      if(this.color1==null || this.color1==='null'){
         this.color1="rgba(31,169,93,1)";
       }
-      if(this.color2==null){
+      if(this.color2==null || this.color2==='null'){
         this.color2="rgba(39,117,167,1)";
       }
-      if(this.color3==null){
+      if(this.color3==null || this.color3==='null'){
         this.color3="rgba(234,75,53,1)";
       }
-      if(this.fontColor==null){
+      if(this.fontColor==null || this.fontColor==='null'){
         this.fontColor="rgba(0,0,0,1)";
       }
       document.querySelector('body').setAttribute('style', 'background:'+this.color0);
@@ -292,7 +292,7 @@
     padding:10px 0 10px 0
     width:100%
     .title
-      font-size: 12vw;
+      font-size: 8vh;
       text-align: center;
     .game-panel
       box-sizing: border-box;
@@ -316,7 +316,7 @@
 
     .container
       width: 90vw;
-      height: 24vw;
+      height: 20vw;
       margin: 2vh auto 0;
       padding: 0;
       .status
@@ -336,9 +336,9 @@
           font-size: 3vw;
           text-align: center;
       .scramble-button
-        width: 45%;
+        width: 36%;
         height: 80%;
         margin: 2vw;
-        float: left;
+        float: right;
         font-size: 8vw;
 </style>

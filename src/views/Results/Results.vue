@@ -28,6 +28,7 @@
     name: "Results",
     data(){
       return{
+        color0:"rgba(243,197,0,1)",
         chartShow:false,
         chartData:[],
         chartOptions:{
@@ -211,6 +212,16 @@
         ms=ms.length>2?ms:'0'+ms;
         return min+":"+sec+"."+ms;
       },
+      timeFormat(timestamp){
+        let time = new Date(timestamp);
+        let str=time.getFullYear() + '-';
+        str+= (time.getMonth() + 1 < 10 ? '0' + (time.getMonth() + 1) : time.getMonth() + 1) + '-';
+        str+= (time.getDate()<10?("0"+time.getDate()):time.getDate())+' ';
+        str+= (time.getHours()<10?("0"+time.getHours()):time.getHours()) + ':';
+        str+= (time.getMinutes()<10?("0"+time.getMinutes()):time.getMinutes());
+
+        return str;
+      },
       getReversedResults(){
         //反转成绩，为了防止使用缓存，不能用计算属性
         let reversedResults=[];
@@ -224,7 +235,7 @@
             content: '查看',
             style: { background: 'lightgray', color: '#fff' ,"font-size":"20px"},
             handler: () => {
-              this.$messagebox("暂时没用");
+              this.$messagebox(this.timeFormat(time));
             }
           },
           {
@@ -265,6 +276,13 @@
         this.chartOptions.series[0].data=arr;
         this.chartShow=!this.chartShow;
       }
+    },
+    mounted() {
+      this.color0=localStorage.getItem("color0");
+      if(this.color0==null || this.color0==='null'){
+        this.color0="rgba(243,197,0,1)";
+      }
+      document.querySelector('body').setAttribute('style', 'background:'+this.color0);
     }
   };
 </script>
