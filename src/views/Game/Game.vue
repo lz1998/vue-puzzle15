@@ -176,7 +176,7 @@
           localStorage.setItem("results",JSON.stringify(results))
         }
         //这里不需要强制刷新界面，如果movesCount改变，会自动刷新，不改变就不需要刷新
-        //this.$forceUpdate();
+        this.$forceUpdate();
       },
       isSolvable(nums){
         //判断是否可解，计算逆序数，偶数可解
@@ -231,7 +231,7 @@
         this.isStart=false;
         this.movesCount=0;
         this.isScramble=true;
-        //this.$forceUpdate();
+        this.$forceUpdate();
       },
       isWin(){
         if(this.game_map[0][0]!=1)return false;
