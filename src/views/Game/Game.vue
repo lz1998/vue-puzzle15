@@ -3,7 +3,8 @@
     <div class="title">Puzzle15</div>
     <div class="game-panel">
       <div class="row" v-for="row in game_map">
-        <div :style="getBlockStyle(num)" v-for="num in row" @touchstart="onTouch(num)" @click="onTouch(num)" @mouseover="onTouch(num)">
+        <!--发布ios时这里不能同时写click、touchstart，否则会执行两次闪一下-->
+        <div :style="getBlockStyle(num)" v-for="num in row" @touchstart="onTouch(num)">
           <span v-text="num" class="num"></span>
         </div>
       </div>
