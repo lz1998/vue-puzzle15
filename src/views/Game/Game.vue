@@ -1,5 +1,5 @@
 <template>
-  <div class="game" :style="{color:this.fontColor}" @touchmove.prevent="">
+  <div class="game" id="game" :style="{color:this.fontColor}" @touchmove.prevent="">
     <div class="title">Puzzle15</div>
     <div class="game-panel">
       <div class="row" v-for="row in game_map">
@@ -267,6 +267,7 @@
       this.color2=localStorage.getItem("color2");
       this.color3=localStorage.getItem("color3");
       this.fontColor=localStorage.getItem("fontColor");
+      this.panelSetting=localStorage.getItem("panelSetting");
       if(this.color0==null || this.color0==='null'){
         this.color0="rgba(243,197,0,1)";
       }
@@ -283,6 +284,7 @@
         this.fontColor="rgba(0,0,0,1)";
       }
       document.querySelector('body').setAttribute('style', 'background:'+this.color0);
+      document.getElementById("game").setAttribute('style', this.panelSetting);
     }
   };
 </script>
