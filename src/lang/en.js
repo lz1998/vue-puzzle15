@@ -15,6 +15,7 @@ export default {
   results:{
     title:"Results",
     chart:"Chart",
+    chartClose:"Close",
     exportResult:"Export",
     moves:"moves"
   },

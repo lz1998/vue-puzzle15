@@ -11,10 +11,17 @@ const messages = {
   zh:zhLocale,
   en: enLocale
 }
+let getLang=function(){
+  let lang=localStorage.getItem("lang");
+  if(lang)return lang;
+  else lang="zh";
+  return lang
+}
 
+//localStorage.setItem("lang","en");
 // 通过选项创建 VueI18n 实例
 const i18n = new VueI18n({
-  locale: 'en', // 设置地区
+  locale: getLang(), // 设置地区
   messages, // 设置地区信息
 })
 export default i18n;

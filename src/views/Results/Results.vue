@@ -17,7 +17,7 @@
         <chart :options="chartOptions" :autoresize="true" class="chart"></chart>
       </div>
       <div class="chart-close">
-        <mt-button @click.native="chartControl" class="close-chart-button" type="primary" >关闭</mt-button>
+        <mt-button @click.native="chartControl" class="close-chart-button" type="primary" >{{$t('results.chartClose')}}</mt-button>
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@
         chartData:[],
         chartOptions:{
           title: {
-            text: '折线图'
+            text: this.$t('results.chart')
           },
           tooltip : {
             trigger: 'axis',
@@ -116,7 +116,7 @@
                 else{
                   min=min.length>1?min:'0'+min;
                   sec=sec.length>1?sec:'0'+sec;
-                  return min+":"+sec+"."+ms;
+                  return min+":"+sec;
                 }
               }
             }

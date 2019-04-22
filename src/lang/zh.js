@@ -12,6 +12,7 @@ export default {
   results:{
     title:"成绩",
     chart:"折线图",
+    chartClose:"关闭",
     exportResult:"导出成绩",
     moves:"步"
   },
