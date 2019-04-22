@@ -1,0 +1,31 @@
+export default {
+  message:{
+    hello:"1234"
+  },
+  tabbar:{
+    game:"Game",
+    results:"Results",
+    settings:"Settings"
+  },
+  game:{
+    title:"15PUZZLE",
+    moves:"Moves",
+    scramble:"Scramble"
+  },
+  results:{
+    title:"Results",
+    chart:"Chart",
+    exportResult:"Export",
+    moves:"moves"
+  },
+  settings:{
+    title:"Settings",
+    background:"BkGnd",
+    inner:"Inner",
+    middle:"Middle",
+    outer:"Outer",
+    font:"Font",
+    other:"Other",
+    save:"Save"
+  }
+}

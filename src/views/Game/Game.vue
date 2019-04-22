@@ -1,6 +1,6 @@
 <template>
   <div class="game" id="game" :style="{color:this.fontColor}" @touchmove.prevent="">
-    <div class="title">Puzzle15</div>
+    <div class="title">{{ $t('game.title') }}</div>
     <div class="game-panel">
       <div class="row" v-for="row in game_map">
         <!--发布ios时这里不能同时写click、touchstart，否则会执行两次闪一下-->
@@ -12,9 +12,9 @@
     <div class="container">
       <div class="status">
         <p class="time" v-text="resultFormat(result)"></p>
-        <p class="moves" v-text="'Moves:'+movesCount"></p>
+        <p class="moves" v-text="$t('game.moves')+':'+movesCount"></p>
       </div>
-      <mt-button class="scramble-button" @click.native="scramble" type="primary">打乱</mt-button>
+      <mt-button class="scramble-button" @click.native="scramble" type="primary">{{ $t('game.scramble') }}</mt-button>
     </div>
   </div>
 </template>
@@ -295,7 +295,7 @@
     padding:10px 0 10px 0
     width:100%
     .title
-      font-size: 8vh;
+      font-size: 12vw;
       text-align: center;
     .game-panel
       box-sizing: border-box;
@@ -339,9 +339,9 @@
           font-size: 3vw;
           text-align: center;
       .scramble-button
-        width: 36%;
+        width: 40%;
         height: 80%;
         margin: 2vw;
         float: right;
-        font-size: 8vw;
+        font-size: 6vw;
 </style>

@@ -1,13 +1,13 @@
 <template>
   <div class="results">
-    <h2 style="text-align: center;">Results</h2>
-    <mt-button @click.native="chartControl" class="show-chart-button" type="primary" >折线图</mt-button>
-    <mt-button v-clipboard:copy="getOutputText()" v-clipboard:success="outputSuccess" v-clipboard:error="outputError" class="output-button" type="primary" >导出成绩</mt-button>
+    <h2 style="text-align: center;">{{$t('results.title')}}</h2>
+    <mt-button @click.native="chartControl" class="show-chart-button" type="primary" >{{$t('results.chart')}}</mt-button>
+    <mt-button v-clipboard:copy="getOutputText()" v-clipboard:success="outputSuccess" v-clipboard:error="outputError" class="output-button" type="primary" >{{$t('results.exportResult')}}</mt-button>
     <mt-cell-swipe
       v-for="result in getReversedResults()"
       :right="getRightButtons(result.time)"
       :title="resultFormat(result.result)"
-      :label="result.moves+' moves'"
+      :label="result.moves+$t('results.moves')"
       :key="result.time"
       class="result">
     </mt-cell-swipe>

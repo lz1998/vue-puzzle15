@@ -6,19 +6,19 @@
         <div slot="icon" style="line-height:24px;text-align: center;">
           <i class="el-icon-menu"></i>
         </div>
-        Game
+        {{$t('tabbar.game')}}
       </mt-tab-item>
       <mt-tab-item id="/results">
         <div slot="icon" style="line-height:24px;text-align: center;">
           <i class="el-icon-tickets"></i>
         </div>
-        Results
+        {{$t('tabbar.results')}}
       </mt-tab-item>
       <mt-tab-item id="/settings">
         <div slot="icon" style="line-height:24px;text-align: center;">
           <i class="el-icon-setting"></i>
         </div>
-        Settings
+        {{$t('tabbar.settings')}}
       </mt-tab-item>
     </mt-tabbar>
   </div>

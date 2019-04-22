@@ -1,0 +1,28 @@
+export default {
+  tabbar:{
+    game:"练习",
+    results:"成绩",
+    settings:"设置"
+  },
+  game:{
+    title:"数字华容道",
+    moves:"步数",
+    scramble:"打乱"
+  },
+  results:{
+    title:"成绩",
+    chart:"折线图",
+    exportResult:"导出成绩",
+    moves:"步"
+  },
+  settings:{
+    title:"设置",
+    background:"背景",
+    inner:"内层",
+    middle:"中层",
+    outer:"外层",
+    font:"字体",
+    other:"其他",
+    save:"保存"
+  }
+}

@@ -1,7 +1,7 @@
 <template>
   <div class="settings">
-    <h2 style="text-align: center;">Settings</h2>
-    <mt-cell title="背景">
+    <h2 style="text-align: center;">{{$t('settings.title')}}</h2>
+    <mt-cell :title="$t('settings.background')">
       <span>
         <mt-field style="width: 200px" type="text" v-model="color0"></mt-field>
       </span>
@@ -9,7 +9,7 @@
         <el-color-picker size="small" show-alpha v-model="color0"></el-color-picker>
       </span>
     </mt-cell>
-    <mt-cell title="内层">
+    <mt-cell :title="$t('settings.inner')">
       <span>
         <mt-field style="width: 200px" type="text" v-model="color1"></mt-field>
       </span>
@@ -17,7 +17,7 @@
        <el-color-picker size="small" show-alpha v-model="color1"></el-color-picker>
       </span>
     </mt-cell>
-    <mt-cell title="中层">
+    <mt-cell :title="$t('settings.middle')">
       <span>
         <mt-field style="width: 200px" type="text" v-model="color2"></mt-field>
       </span>
@@ -25,7 +25,7 @@
         <el-color-picker size="small" show-alpha v-model="color2"></el-color-picker>
       </span>
     </mt-cell>
-    <mt-cell title="外层">
+    <mt-cell :title="$t('settings.outer')">
       <span>
         <mt-field style="width: 200px" type="text" v-model="color3"></mt-field>
       </span>
@@ -33,7 +33,7 @@
         <el-color-picker size="small" show-alpha v-model="color3"></el-color-picker>
       </span>
     </mt-cell>
-    <mt-cell title="字体">
+    <mt-cell :title="$t('settings.font')">
       <span>
         <mt-field style="width: 200px" type="text" v-model="fontColor"></mt-field>
       </span>
@@ -41,12 +41,14 @@
         <el-color-picker size="small" show-alpha v-model="fontColor"></el-color-picker>
       </span>
     </mt-cell>
-    <mt-cell title="其他">
+    <mt-cell :title="$t('settings.other')">
       <span>
         <mt-field type="text" v-model="panelSetting"></mt-field>
       </span>
     </mt-cell>
-    <mt-button @click.native="saveChange" class="save-button" type="primary">Save</mt-button>
+    <mt-button @click.native="saveChange" class="save-button" type="primary">{{$t('settings.save')}}</mt-button>
+    <mt-button @click.native="langChange" class="lang-button" type="primary">中文/English</mt-button>
+
   </div>
 </template>
 
@@ -71,6 +73,14 @@
         localStorage.setItem("fontColor",this.fontColor);
         localStorage.setItem("panelSetting",this.panelSetting);
         document.querySelector('body').setAttribute('style', 'background:'+this.color0);
+      },
+      langChange(){
+        if(this.$i18n.locale=="zh"){
+          this.$i18n.locale="en";
+        }
+        else{
+          this.$i18n.locale="zh";
+        }
       }
     },
     mounted(){
@@ -104,7 +114,9 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .save-button
     margin:10px
-    float:right
+    float:left
+  .lang-button
+    margin:10px
   .settings
     padding:10px
     padding-bottom:100px
