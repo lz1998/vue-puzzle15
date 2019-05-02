@@ -1,8 +1,8 @@
 <template>
   <div class="game" id="game" :style="{color:this.fontColor}" @touchmove.prevent="">
-    <div class="title">{{ $t('game.title') }}</div>
+    <div class="title" @click="playTutorial">{{ $t('game.title') }}</div>
     <div class="game-panel">
-      <div class="row" v-for="row in game_map">
+      <div class="row" v-for="row in gameMap">
         <!--发布ios时这里不能同时写click、touchstart，否则会执行两次闪一下-->
         <div :style="getBlockStyle(num)" v-for="num in row" @touchstart="onTouch(num)">
           <span v-text="num" class="num"></span>
@@ -29,7 +29,7 @@
         color2:"rgba(39,117,167,1)",
         color3:"rgba(234,75,53,1)",
         fontColor:"rgba(0,0,0,1)",
-        game_map:[
+        gameMap:[
           [1,2,3,4],
           [5,6,7,8],
           [9,10,11,12],
@@ -101,12 +101,12 @@
           let row0,col0,row,col;
           for(let i=0;i<4;i++)
             for(let j=0;j<4;j++){
-              if(this.game_map[i][j]===num)
+              if(this.gameMap[i][j]===num)
               {
                 row=i;
                 col=j;
               }
-              else if(this.game_map[i][j]===0){
+              else if(this.gameMap[i][j]===0){
                 row0=i;
                 col0=j;
               }
@@ -118,18 +118,18 @@
             {
               for(let j=col0;j<col;j++) {
                 //这里不用考虑实时显示问题，如果movesCount改变，会自动刷新整个页面
-                this.game_map[row][j]=this.game_map[row][j+1];
+                this.gameMap[row][j]=this.gameMap[row][j+1];
                 this.movesCount++;
               }
-              this.game_map[row][col]=0;
+              this.gameMap[row][col]=0;
             }
             if(col<col0) {
               for (let j = col0; j > col; j--) {
                 //这里不用考虑实时显示问题，如果movesCount改变，会自动刷新整个页面
-                this.game_map[row][j] = this.game_map[row][j - 1];
+                this.gameMap[row][j] = this.gameMap[row][j - 1];
                 this.movesCount++;
               }
-              this.game_map[row][col] = 0;
+              this.gameMap[row][col] = 0;
             }
           }
           else if(col0===col)
@@ -138,19 +138,19 @@
             {
               for(let i=row0;i<row;i++) {
                 //这里不用考虑实时显示问题，如果movesCount改变，会自动刷新整个页面
-                this.game_map[i][col]=this.game_map[i+1][col];
+                this.gameMap[i][col]=this.gameMap[i+1][col];
                 this.movesCount++;
               }
-              this.game_map[row][col]=0;
+              this.gameMap[row][col]=0;
             }
             if(row<row0)
             {
               for(let i=row0;i>row;i--) {
                 //这里不用考虑实时显示问题，如果movesCount改变，会自动刷新整个页面
-                this.game_map[i][col]=this.game_map[i-1][col];
+                this.gameMap[i][col]=this.gameMap[i-1][col];
                 this.movesCount++;
               }
-              this.game_map[row][col]=0;
+              this.gameMap[row][col]=0;
             }
           }
         }
@@ -226,8 +226,8 @@
 
         for(let i=0;i<16;i++){
           //Vue中数组必须使用$set方法或者最后调用this.$forceUpdate()，否则不会界面不会随着data改变刷新
-          this.$set(this.game_map[parseInt(i/4)],i%4,nums[i]);
-          //this.game_map[parseInt(i/4)][i%4]=nums[i];
+          this.$set(this.gameMap[parseInt(i/4)],i%4,nums[i]);
+          //this.gameMap[parseInt(i/4)][i%4]=nums[i];
         }
         this.isStart=false;
         this.movesCount=0;
@@ -235,24 +235,76 @@
         this.$forceUpdate();
       },
       isWin(){
-        if(this.game_map[0][0]!=1)return false;
-        if(this.game_map[0][1]!=2)return false;
-        if(this.game_map[0][2]!=3)return false;
-        if(this.game_map[0][3]!=4)return false;
-        if(this.game_map[1][0]!=5)return false;
-        if(this.game_map[1][1]!=6)return false;
-        if(this.game_map[1][2]!=7)return false;
-        if(this.game_map[1][3]!=8)return false;
-        if(this.game_map[2][0]!=9)return false;
-        if(this.game_map[2][1]!=10)return false;
-        if(this.game_map[2][2]!=11)return false;
-        if(this.game_map[2][3]!=12)return false;
-        if(this.game_map[3][0]!=13)return false;
-        if(this.game_map[3][1]!=14)return false;
-        if(this.game_map[3][2]!=15)return false;
-        if(this.game_map[3][3]!=0)return false;
+        if(this.gameMap[0][0]!=1)return false;
+        if(this.gameMap[0][1]!=2)return false;
+        if(this.gameMap[0][2]!=3)return false;
+        if(this.gameMap[0][3]!=4)return false;
+        if(this.gameMap[1][0]!=5)return false;
+        if(this.gameMap[1][1]!=6)return false;
+        if(this.gameMap[1][2]!=7)return false;
+        if(this.gameMap[1][3]!=8)return false;
+        if(this.gameMap[2][0]!=9)return false;
+        if(this.gameMap[2][1]!=10)return false;
+        if(this.gameMap[2][2]!=11)return false;
+        if(this.gameMap[2][3]!=12)return false;
+        if(this.gameMap[3][0]!=13)return false;
+        if(this.gameMap[3][1]!=14)return false;
+        if(this.gameMap[3][2]!=15)return false;
+        if(this.gameMap[3][3]!=0)return false;
         return true;
       },
+      sleep(n){
+        return new Promise(function (resolve,reject) {
+          setTimeout(resolve,n);
+        })
+      },
+      async playAudio(text) {
+        console.log(text);
+        this.$toast({message:text,position:"bottom",duration:1000})
+        let audio = new Audio("http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=5&per=0&text=" + text);
+        audio.play();
+
+        while (!audio.ended) {
+          await this.sleep(200);
+        }
+
+      },
+      async playTutorial(){
+        this.isStart=false;
+        this.isScramble=false;
+        let tutorial=require("../../turtorial/tutorial.json")
+        this.$toast({message:"本教程由 "+tutorial.author+" 提供",position:"bottom",duration:1000})
+        await this.sleep(1500);
+        this.$toast({message:"运行期间不要触摸屏幕",position:"bottom",duration:500})
+        await this.sleep(1000);
+        // this.$messagebox("本教程由 "+tutorial.author+" 提供");
+
+        await this.playAudio(tutorial.description);
+
+        for(let i=0;i<tutorial.beforeSteps.length;i++){
+          await this.playAudio(tutorial.beforeSteps[i].description);
+          await this.sleep(tutorial.beforeSteps[i].beforeSleep);
+          this.color1=tutorial.beforeSteps[i].color1;
+          this.color2=tutorial.beforeSteps[i].color2;
+          this.color3=tutorial.beforeSteps[i].color3;
+          this.gameMap=tutorial.beforeSteps[i].gameMap;
+          await this.sleep(tutorial.beforeSteps[i].afterSleep);
+        }
+
+        this.gameMap=tutorial.gameMap;
+        for(let i=0;i<tutorial.steps.length;i++){
+          this.color1=tutorial.steps[i].color1;
+          this.color2=tutorial.steps[i].color2;
+          this.color3=tutorial.steps[i].color3;
+          await this.playAudio(tutorial.steps[i].description);
+          await this.sleep(tutorial.steps[i].beforeSleep)
+          for(let j=0;j<tutorial.steps[i].moves.length;j++){
+            this.onTouch(tutorial.steps[i].moves[j]);
+            await this.sleep(tutorial.steps[i].moveSleep);
+          }
+          await this.sleep(tutorial.steps[i].afterSleep);
+        }
+      }
     },
     mounted(){
       const timer = setInterval(() => {
