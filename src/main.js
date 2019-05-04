@@ -5,7 +5,8 @@ import App from './App';
 import router from './router';
 import i18n from './lang';
 import Vuex from 'vuex';
-
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
@@ -22,6 +23,7 @@ import 'echarts/lib/chart/line';
 Vue.component('chart', ECharts);
 Vue.use(ColorPicker);
 Vue.use(Vuex);
+Vue.use(VueAxios, axios);
 Vue.use(VueClipboard);
 Vue.use(MintUI);
 Vue.config.productionTip = false

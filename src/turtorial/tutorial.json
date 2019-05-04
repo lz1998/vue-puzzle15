@@ -1,6 +1,7 @@
 {
   "author":"lz1998",
   "description":"降阶法",
+  "toastDuration": 1000,
   "gameMap":[
     [13,1,9,2],
     [4,14,5,10],
@@ -10,6 +11,7 @@
   "beforeSteps":[
     {
       "description":"先还原外层",
+      "toastDuration": 2500,
       "gameMap":[
         [1,2,3,4],
         [5,6,7,8],
@@ -20,10 +22,11 @@
       "color2":"#444",
       "color3":"rgba(234,75,53,1)",
       "beforeSleep":100,
-      "afterSleep":1500
+      "afterSleep":3000
     },
     {
       "description":"再还原中层",
+      "toastDuration": 2500,
       "gameMap":[
         [1,2,3,4],
         [5,6,7,8],
@@ -34,10 +37,11 @@
       "color2":"rgba(39,117,167,1)",
       "color3":"#444",
       "beforeSleep":100,
-      "afterSleep":1500
+      "afterSleep":3000
     },
     {
       "description":"最后还原内层",
+      "toastDuration": 2500,
       "gameMap":[
         [1,2,3,4],
         [5,6,7,8],
@@ -48,99 +52,307 @@
       "color2":"#444",
       "color3":"#444",
       "beforeSleep":100,
-      "afterSleep":1500
+      "afterSleep":3000
+    },
+    {
+      "description":"",
+      "toastDuration": 0,
+      "gameMap":[
+        [1,2,3,4],
+        [5,6,7,8],
+        [9,10,11,12],
+        [13,14,15,0]
+      ],
+      "color1":"#444",
+      "color2":"#444",
+      "color3":"rgba(234,75,53,1)",
+      "beforeSleep":100,
+      "afterSleep":1000
+    },
+    {
+      "description":"",
+      "toastDuration": 0,
+      "gameMap":[
+        [1,2,3,4],
+        [5,6,7,8],
+        [9,10,11,12],
+        [13,14,15,0]
+      ],
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "beforeSleep":100,
+      "afterSleep":1000
+    },
+    {
+      "description":"",
+      "toastDuration": 0,
+      "gameMap":[
+        [1,2,3,4],
+        [5,6,7,8],
+        [9,10,11,12],
+        [13,14,15,0]
+      ],
+      "color1":"rgba(31,169,93,1)",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "beforeSleep":100,
+      "afterSleep":1000
     }
   ],
   "steps":[
     {
       "description":"先把1还原",
+      "toastDuration": 3000,
       "color1":"#444",
       "color2":"#444",
       "color3":"rgba(234,75,53,1)",
       "moves":[15,4,13,1],
-      "moveSleep":200,
-      "beforeSleep":0,
-      "afterSleep":0
+      "moveSleep":300,
+      "beforeSleep":3000,
+      "afterSleep":1500
     },
     {
       "description":"再把2还原",
+      "toastDuration": 3000,
       "color1":"#444",
       "color2":"#444",
       "color3":"rgba(234,75,53,1)",
       "moves":[9,2,10,5,14,9,2],
-      "moveSleep":200,
-      "beforeSleep":0,
-      "afterSleep":0
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":1500
     },
     {
       "description":"然后把4放到2后面，不能直接放在4的位置",
+      "toastDuration": 3000,
       "color1":"#444",
       "color2":"#444",
       "color3":"rgba(234,75,53,1)",
       "moves":[14,6,15,4,13,9,6,15,4,6,15,4,7,5,10,14,4],
-      "moveSleep":200,
-      "beforeSleep":0,
-      "afterSleep":0
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":1500
     },
     {
       "description":"把3放在4下面",
+      "toastDuration": 3000,
       "color1":"#444",
       "color2":"#444",
       "color3":"rgba(234,75,53,1)",
       "moves":[7,8,12,3,13,6,3,12,8,3,15,7,3],
-      "moveSleep":200,
-      "beforeSleep":0,
-      "afterSleep":0
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":1500
     },
     {
-      "description":"把4右边空出来，3和4一起还原",
+      "description":"把4右边空出来",
+      "toastDuration": 3000,
       "color1":"#444",
       "color2":"#444",
       "color3":"rgba(234,75,53,1)",
-      "moves":[5,10,14,4,3],
-      "moveSleep":200,
-      "beforeSleep":0,
-      "afterSleep":0
+      "moves":[5,10,14],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":2500
+    },
+    {
+      "description":"3和4一起还原",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"#444",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[4,3],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":2500
     },
     {
       "description":"还原13，因为运气好，已经还原了",
+      "toastDuration": 3000,
       "color1":"#444",
       "color2":"#444",
       "color3":"rgba(234,75,53,1)",
       "moves":[],
-      "moveSleep":200,
-      "beforeSleep":0,
-      "afterSleep":0
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":3000
     },
     {
       "description":"把9放在5的位置，因为运气好，已经放好了",
+      "toastDuration": 3000,
       "color1":"#444",
       "color2":"#444",
       "color3":"rgba(234,75,53,1)",
       "moves":[],
-      "moveSleep":200,
-      "beforeSleep":0,
-      "afterSleep":0
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":3000
     },
     {
       "description":"把5放在9的右边",
+      "toastDuration": 3000,
       "color1":"#444",
       "color2":"#444",
       "color3":"rgba(234,75,53,1)",
       "moves":[5,15,7,5],
-      "moveSleep":200,
-      "beforeSleep":0,
-      "afterSleep":0
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":2500
     },
     {
       "description":"5和9一起还原",
+      "toastDuration": 3000,
       "color1":"#444",
       "color2":"#444",
       "color3":"rgba(234,75,53,1)",
       "moves":[15,7,6,9,5],
-      "moveSleep":200,
-      "beforeSleep":0,
-      "afterSleep":0
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":1500
+    },
+    {
+      "description":"外层已还原，还原中层",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[],
+      "moveSleep":300,
+      "beforeSleep":2500,
+      "afterSleep":1500
+    },
+    {
+      "description":"先还原6",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[6],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":2500
+    },
+    {
+      "description":"把8放在7的位置",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[7,8,11,10,14,15,8],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":1500
+    },
+    {
+      "description":"把7放在8下面",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[7],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":2500
+    },
+    {
+      "description":"把8右边空出来",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[12,11,10,14,15],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":1500
+    },
+    {
+      "description":"7和8一起还原",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[8,7],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":2500
+    },
+    {
+      "description":"把10放在14的位置",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[12,11,10],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":2500
+    },
+    {
+      "description":"14放在10右边",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[14],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":2500
+    },
+    {
+      "description":"把10上面空出来",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[15,12,11],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":2500
+    },
+    {
+      "description":"10和14一起还原",
+      "toastDuration": 3000,
+      "color1":"#444",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[10,14],
+      "moveSleep":300,
+      "beforeSleep":500,
+      "afterSleep":2500
+    },
+    {
+      "description":"中层已还原，还原内层",
+      "toastDuration": 3000,
+      "color1":"rgba(31,169,93,1)",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[],
+      "moveSleep":300,
+      "beforeSleep":2500,
+      "afterSleep":1500
+    },
+    {
+      "description":"还原15",
+      "toastDuration": 3000,
+      "color1":"rgba(31,169,93,1)",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[15],
+      "moveSleep":300,
+      "beforeSleep":2500,
+      "afterSleep":1500
+    },
+    {
+      "description":"教程结束",
+      "toastDuration": 3000,
+      "color1":"rgba(31,169,93,1)",
+      "color2":"rgba(39,117,167,1)",
+      "color3":"rgba(234,75,53,1)",
+      "moves":[],
+      "moveSleep":300,
+      "beforeSleep":2500,
+      "afterSleep":1500
     }
   ]
 }

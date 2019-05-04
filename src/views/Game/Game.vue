@@ -42,6 +42,8 @@
         isStart:false,
         isScramble:false,
         timer:null,
+        isiOS:false,
+        tutorialPrompt:true
       }
     },
     methods:{
@@ -258,31 +260,69 @@
           setTimeout(resolve,n);
         })
       },
-      async playAudio(text) {
-        console.log(text);
-        this.$toast({message:text,position:"bottom",duration:1000})
-        let audio = new Audio("http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=5&per=0&text=" + text);
-        audio.play();
+      async showDescription(description,toastDuration) {
+        console.log(description);
+        console.log(toastDuration);
+        if(description==null || description==""){
+          return;
+        }
+        this.$toast({message:description,position:"bottom",duration:toastDuration})
 
-        while (!audio.ended) {
-          await this.sleep(200);
+        if(!this.isiOS){
+          let audio = new Audio("http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=5&per=0&text=" + description);
+          audio.play();
+          while (!audio.ended) {
+            await this.sleep(200);
+          }
         }
 
       },
       async playTutorial(){
+
         this.isStart=false;
         this.isScramble=false;
-        let tutorial=require("../../turtorial/tutorial.json")
-        this.$toast({message:"本教程由 "+tutorial.author+" 提供",position:"bottom",duration:1000})
-        await this.sleep(1500);
-        this.$toast({message:"运行期间不要触摸屏幕",position:"bottom",duration:500})
-        await this.sleep(1000);
-        // this.$messagebox("本教程由 "+tutorial.author+" 提供");
 
-        await this.playAudio(tutorial.description);
+        let tutorial=null;
+        let _action="confirm";
+
+        await this.$messagebox.prompt("输入教程地址,默认教程留空").then(async ({value, action}) => {
+          if (value == null || value == "") {
+            tutorial = require("../../turtorial/tutorial.json");
+          } else {
+            await this.axios.get(value).then((res) => {
+              tutorial = res.data;
+            }).catch(reason => {
+              this.$toast({message: reason, position: "bottom", duration: 1000})
+            });
+          }
+        }).catch((action)=>{
+          _action=action;
+        })
+        if(_action!="confirm"){
+          return;
+        }
+
+        let u = navigator.userAgent;
+        this.isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        if(this.isiOS){
+          this.showDescription("iOS不能播放语音",1000)
+          await this.sleep(1500);
+        }else{
+          this.showDescription("安卓可以开启语音",1000)
+          await this.sleep(1500);
+        }
+
+        this.showDescription("本教程由 "+tutorial.author+" 提供",1000)
+        await this.sleep(1500);
+
+        this.showDescription("运行期间不要触摸屏幕",1000)
+        await this.sleep(1500);
+
+        await this.showDescription(tutorial.description,tutorial.toastDuration);
+        await this.sleep(tutorial.toastDuration);
 
         for(let i=0;i<tutorial.beforeSteps.length;i++){
-          await this.playAudio(tutorial.beforeSteps[i].description);
+          await this.showDescription(tutorial.beforeSteps[i].description,tutorial.beforeSteps[i].toastDuration);
           await this.sleep(tutorial.beforeSteps[i].beforeSleep);
           this.color1=tutorial.beforeSteps[i].color1;
           this.color2=tutorial.beforeSteps[i].color2;
@@ -296,7 +336,7 @@
           this.color1=tutorial.steps[i].color1;
           this.color2=tutorial.steps[i].color2;
           this.color3=tutorial.steps[i].color3;
-          await this.playAudio(tutorial.steps[i].description);
+          await this.showDescription(tutorial.steps[i].description,tutorial.steps[i].toastDuration);
           await this.sleep(tutorial.steps[i].beforeSleep)
           for(let j=0;j<tutorial.steps[i].moves.length;j++){
             this.onTouch(tutorial.steps[i].moves[j]);
@@ -304,12 +344,22 @@
           }
           await this.sleep(tutorial.steps[i].afterSleep);
         }
+        this.color1=localStorage.getItem("color1");
+        this.color2=localStorage.getItem("color2");
+        this.color3=localStorage.getItem("color3");
       }
     },
     mounted(){
-      const timer = setInterval(() => {
-        if(this.isStart)
-          this.result=(new Date()).getTime()-this.startTime;
+      const timer = setInterval(async () => {
+        if (this.isStart)
+          this.result = (new Date()).getTime() - this.startTime;
+        if (this.result > 180000 && this.tutorialPrompt) {
+          this.tutorialPrompt = false;
+          this.showDescription("可能你遇到了一点问题", 3000);
+          await this.sleep(4000);
+          this.showDescription("点击标题播放教程", 3000);
+
+        }
       },93);
       this.$once('hook:beforeDestroy', () => {
         clearInterval(timer);
@@ -322,18 +372,23 @@
       this.panelSetting=localStorage.getItem("panelSetting");
       if(this.color0==null || this.color0==='null'){
         this.color0="rgba(243,197,0,1)";
+        localStorage.setItem("color0",this.color0);
       }
       if(this.color1==null || this.color1==='null'){
         this.color1="rgba(31,169,93,1)";
+        localStorage.setItem("color1",this.color1);
       }
       if(this.color2==null || this.color2==='null'){
         this.color2="rgba(39,117,167,1)";
+        localStorage.setItem("color2",this.color2);
       }
       if(this.color3==null || this.color3==='null'){
         this.color3="rgba(234,75,53,1)";
+        localStorage.setItem("color3",this.color3);
       }
       if(this.fontColor==null || this.fontColor==='null'){
         this.fontColor="rgba(0,0,0,1)";
+        localStorage.setItem("fontColor",this.fontColor);
       }
       document.querySelector('body').setAttribute('style', 'background:'+this.color0);
       document.getElementById("game").setAttribute('style', this.panelSetting);
