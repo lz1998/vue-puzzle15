@@ -305,17 +305,17 @@
         let u = navigator.userAgent;
         this.isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
         if(this.isiOS){
-          this.showDescription("iOS不能播放语音",1000)
+          await this.showDescription("iOS不能播放语音",1000)
           await this.sleep(1500);
         }else{
-          this.showDescription("安卓可以开启语音",1000)
+          await this.showDescription("安卓可以开启语音",1000)
           await this.sleep(1500);
         }
 
-        this.showDescription("本教程由 "+tutorial.author+" 提供",1000)
+        await this.showDescription("本教程由 "+tutorial.author+" 提供",1000)
         await this.sleep(1500);
 
-        this.showDescription("运行期间不要触摸屏幕",1000)
+        await this.showDescription("运行期间不要触摸屏幕",1000)
         await this.sleep(1500);
 
         await this.showDescription(tutorial.description,tutorial.toastDuration);
