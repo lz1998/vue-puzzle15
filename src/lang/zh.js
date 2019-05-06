@@ -5,7 +5,7 @@ export default {
     settings:"设置"
   },
   game:{
-    title:"数字华容道",
+    title:"15PUZZLE",
     moves:"步数",
     scramble:"打乱"
   },
