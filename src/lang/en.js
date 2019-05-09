@@ -1,7 +1,4 @@
 export default {
-  message:{
-    hello:"1234"
-  },
   tabbar:{
     game:"Game",
     results:"Results",
