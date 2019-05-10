@@ -21,40 +21,49 @@
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      //错误提示
+      window.onerror = function(msg, url, line, col, error) {
+        alert("Error: " + msg + "\nurl: " + url
+          + "\nline: " + line + (!col ? '' : '\ncolumn: ' + col)
+          + (!error ? '' : '\nerror: ' + error));
+      };
+    </script>
+    <script>
+      //禁止缩放
+      window.onload=function () {
+        document.addEventListener('touchstart',function (event) {
+          if(event.touches.length>1){
+            event.preventDefault();
+          }
+        });
+        var lastTouchEnd=0;
+        document.addEventListener('touchend',function (event) {
+          var now=(new Date()).getTime();
+          if(now-lastTouchEnd<=300){
+            event.preventDefault();
+          }
+          lastTouchEnd=now;
+        },false);
+        document.addEventListener('gesturestart', function (event) {
+          event.preventDefault();
+        });
+      }
+    </script>
+
+    <script>
+      var _mtac = {};
+      (function() {
+        var mta = document.createElement("script");
+        mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+        mta.setAttribute("name", "MTAH5");
+        mta.setAttribute("sid", "500682131");
+
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(mta, s);
+      })();
+    </script>
     <!-- built files will be auto injected -->
   </body>
-  <script>
-    //禁止缩放
-    window.onload=function () {
-      document.addEventListener('touchstart',function (event) {
-        if(event.touches.length>1){
-          event.preventDefault();
-        }
-      });
-      var lastTouchEnd=0;
-      document.addEventListener('touchend',function (event) {
-        var now=(new Date()).getTime();
-        if(now-lastTouchEnd<=300){
-          event.preventDefault();
-        }
-        lastTouchEnd=now;
-      },false);
-      document.addEventListener('gesturestart', function (event) {
-        event.preventDefault();
-      });
-    }
-  </script>
 
-  <script>
-    var _mtac = {};
-    (function() {
-      var mta = document.createElement("script");
-      mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
-      mta.setAttribute("name", "MTAH5");
-      mta.setAttribute("sid", "500682131");
-
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(mta, s);
-    })();
-  </script>
 </html>
