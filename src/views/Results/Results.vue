@@ -81,7 +81,7 @@
             labelFormatter(value){console.log(value);return value},
           },
           legend:{
-            data:['折线图数据']
+            data:['成绩','步数']
           },
           grid: {x:50,y: 70, x2:50, y2:60},
           xAxis: {
@@ -99,7 +99,8 @@
               }
             }
           },
-          yAxis: {
+          yAxis: [
+            {
             type: 'value',
             axisLabel:{
               formatter:function(result){
@@ -120,9 +121,14 @@
                 }
               }
             }
-          },
-          series: [{
-            name: '折线图数据',
+            },
+            {
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+            name: '成绩',
             type: 'line',
             data:[],
             markLine: {
@@ -181,7 +187,32 @@
               }
 
             },
-          }]
+          },
+            {
+              name: '步数',
+              type: 'line',
+              yAxisIndex:1,
+              data:[],
+              markLine: {
+                symbol:'none',
+                data: [
+                  {type: 'average', name: '平均值'}
+                ],
+
+              },
+              markPoint : {
+                data : [
+                  {type : 'max', name: '最大值',symbolOffset:[0,-6],symbolRotate:180,label:{offset:[0,-15]}},
+                  {type : 'min', name: '最小值',symbolOffset:[0,6],label:{offset:[0,20]}},
+                ],
+                symbolSize:10,
+                symbol:'triangle',
+
+
+              },
+            }
+          ]
+
         }
 
     }
@@ -268,12 +299,16 @@
       },
       chartControl(){
         //控制是否显示折线图
-        let arr=[];
+        let arrResult=[];
+        let arrMoves=[];
         this.results.forEach(function(item){
           let tmp=[item.time,item.result];
-          arr.push(tmp);
+          arrResult.push(tmp);
+          tmp=[item.time,item.moves];
+          arrMoves.push(tmp);
         })
-        this.chartOptions.series[0].data=arr;
+        this.chartOptions.series[0].data=arrResult;
+        this.chartOptions.series[1].data=arrMoves;
         this.chartShow=!this.chartShow;
       }
     },
