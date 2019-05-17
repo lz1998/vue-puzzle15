@@ -14,9 +14,11 @@
 
     <div class="chart-wrapper" v-show="chartShow">
       <div class="chart-main">
-        <chart :options="chartOptions" :autoresize="true" class="chart"></chart>
+        <chart :options="chartOptions" :autoresize="true" class="chart" :theme="chartThemeList[chartThemeIndex]"></chart>
       </div>
-      <div class="chart-close">
+
+      <div class="chart-button">
+        <mt-button @click.native="changeChartTheme" class="change-theme-chart-button" type="primary" >更换主题</mt-button>
         <mt-button @click.native="chartControl" class="close-chart-button" type="primary" >{{$t('results.chartClose')}}</mt-button>
       </div>
     </div>
@@ -31,6 +33,8 @@
         color0:"rgba(243,197,0,1)",
         chartShow:false,
         chartData:[],
+        chartThemeList:['','light','dark','infographic','macarons','roma','shine','vintage'],
+        chartThemeIndex:0,
         chartOptions:{
           title: {
             text: this.$t('results.chart')
@@ -334,6 +338,11 @@
       outputError(){
         this.$messagebox("error");
       },
+      changeChartTheme(){
+        this.chartThemeIndex++;
+        this.chartThemeIndex%=this.chartThemeList.length;
+        console.log(this.chartThemeList[this.chartThemeIndex]);
+      },
       chartControl(){
         //控制是否显示折线图
         let arrResult=[];
@@ -390,14 +399,15 @@
       height:100%
       overflow :auto
       transition: all 0.5s
-      background :rgba(256,256,256,0.9)
+      background :rgba(256,256,256,0.95)
       backdrop-filter :blur(10px)
       .chart-main
         width:100%
         .chart
           width:100%
           margin:10px auto
-      .close-chart-button
+      .chart-button
         margin:10px
+
 
 </style>

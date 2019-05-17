@@ -19,7 +19,13 @@ import 'echarts/lib/component/markLine';
 import 'echarts/lib/component/markPoint';
 import 'echarts/lib/component/toolbox';
 import 'echarts/lib/component/dataZoom'
-import 'echarts/lib/component/legend'
+import 'echarts/lib/component/legend';
+import 'echarts/theme/dark';
+import 'echarts/theme/infographic';
+import 'echarts/theme/macarons';
+import 'echarts/theme/roma';
+import 'echarts/theme/shine';
+import 'echarts/theme/vintage';
 import 'echarts/lib/chart/line';
 Vue.component('chart', ECharts);
 Vue.use(ColorPicker);
