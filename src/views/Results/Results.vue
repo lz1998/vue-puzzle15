@@ -399,13 +399,12 @@
       height:100%
       overflow :auto
       transition: all 0.5s
-      background :rgba(256,256,256,0.95)
+      background :rgb(255,255,255)
       backdrop-filter :blur(10px)
       .chart-main
         width:100%
         .chart
           width:100%
-          margin:10px auto
       .chart-button
         margin:10px
 
