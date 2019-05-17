@@ -38,31 +38,39 @@
           tooltip : {
             trigger: 'axis',
             formatter(params){
-              let ms=(params[0].value[1]%1000).toString();
-              let sec=parseInt(params[0].value[1]/1000).toString();
-              let min=parseInt(sec/60).toString();
-              sec=(sec%60).toString();
+              let ret=""
+              let resultFormatter=function(result){
+                let ms=(result%1000).toString();
+                let sec=parseInt(result/1000).toString();
+                let min=parseInt(sec/60).toString();
+                sec=(sec%60).toString();
 
-              ms=ms.length>2?ms:'0'+ms;
-              ms=ms.length>2?ms:'0'+ms;
-              let str='';
-              if(min==0){
-                str= "Time:"+sec+"."+ms;
+                ms=ms.length>2?ms:'0'+ms;
+                ms=ms.length>2?ms:'0'+ms;
+                if(min==0){
+                  return sec+"."+ms;
+                }
+                else{
+                  min=min.length>1?min:'0'+min;
+                  sec=sec.length>1?sec:'0'+sec;
+                  return min+":"+sec;
+                }
               }
-              else{
-                min=min.length>1?min:'0'+min;
-                sec=sec.length>1?sec:'0'+sec;
-                str= "Time:"+min+":"+sec+"."+ms;
+              for(let i=0;i<params.length;i++){
+                if(params[i].seriesName=="成绩"){
+                  ret+=params[i].marker+params[i].seriesName+":"+resultFormatter(params[i].data[1])+"<br/>"
+                }else{
+                  ret+=params[i].marker+params[i].seriesName+":"+params[i].data[1]+"<br/>"
+                }
               }
-              str=str+"<br/>";
               let date = new Date(params[0].value[0]);
-              str+=date.getFullYear() + '-';
-              str+= (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-              str+= (date.getDate()<10?("0"+date.getDate()):date.getDate())+' ';
-              str+= (date.getHours()<10?("0"+date.getHours()):date.getHours()) + ':';
-              str+= (date.getMinutes()<10?("0"+date.getMinutes()):date.getMinutes())+":";
-              str+= (date.getSeconds()<10?("0"+date.getSeconds()):date.getSeconds());
-              return str;
+              ret+=date.getFullYear() + '-';
+              ret+= (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+              ret+= (date.getDate()<10?("0"+date.getDate()):date.getDate())+' ';
+              ret+= (date.getHours()<10?("0"+date.getHours()):date.getHours()) + ':';
+              ret+= (date.getMinutes()<10?("0"+date.getMinutes()):date.getMinutes())+":";
+              ret+= (date.getSeconds()<10?("0"+date.getSeconds()):date.getSeconds());
+              return ret;
             }
           },
           toolbox:{
@@ -81,7 +89,12 @@
             labelFormatter(value){console.log(value);return value},
           },
           legend:{
-            data:['成绩','步数']
+            data:['成绩','步数','手速'],
+            selected:{
+              '成绩':true,
+              '步数':true,
+              '手速':false
+            },
           },
           grid: {x:50,y: 70, x2:50, y2:60},
           xAxis: {
@@ -121,6 +134,9 @@
                 }
               }
             }
+            },
+            {
+              type: 'value'
             },
             {
               type: 'value'
@@ -192,6 +208,27 @@
               name: '步数',
               type: 'line',
               yAxisIndex:1,
+              data:[],
+              markLine: {
+                symbol:'none',
+                data: [
+                  {type: 'average', name: '平均值'}
+                ],
+
+              },
+              markPoint : {
+                data : [
+                  {type : 'max', name: '最大值',symbolOffset:[0,-6],symbolRotate:180,label:{offset:[0,-15]}},
+                  {type : 'min', name: '最小值',symbolOffset:[0,6],label:{offset:[0,20]}},
+                ],
+                symbolSize:10,
+                symbol:'triangle',
+              },
+            },
+            {
+              name: '手速',
+              type: 'line',
+              yAxisIndex:2,
               data:[],
               markLine: {
                 symbol:'none',
@@ -301,14 +338,18 @@
         //控制是否显示折线图
         let arrResult=[];
         let arrMoves=[];
+        let arrTps=[];
         this.results.forEach(function(item){
           let tmp=[item.time,item.result];
           arrResult.push(tmp);
           tmp=[item.time,item.moves];
           arrMoves.push(tmp);
+          tmp=[item.time,parseInt(100000*item.moves/item.result)/100];
+          arrTps.push(tmp);
         })
         this.chartOptions.series[0].data=arrResult;
         this.chartOptions.series[1].data=arrMoves;
+        this.chartOptions.series[2].data=arrTps;
         this.chartShow=!this.chartShow;
       }
     },
