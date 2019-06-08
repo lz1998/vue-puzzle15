@@ -3,8 +3,8 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+import store from './store'
 import i18n from './lang';
-import Vuex from 'vuex';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
@@ -29,7 +29,6 @@ import 'echarts/theme/vintage';
 import 'echarts/lib/chart/line';
 Vue.component('chart', ECharts);
 Vue.use(ColorPicker);
-Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 Vue.use(VueClipboard);
 Vue.use(MintUI);
@@ -39,7 +38,30 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   i18n,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  mounted(){
+    let results=localStorage.getItem("results");
+    if(results==null){
+      results=[];
+    }else{
+      results=JSON.parse(results);
+    }
+    let color0=localStorage.getItem("color0");
+    let color1=localStorage.getItem("color1");
+    let color2=localStorage.getItem("color2");
+    let color3=localStorage.getItem("color3");
+    let fontColor=localStorage.getItem("fontColor");
+    let panelSetting=localStorage.getItem("panelSetting");
+
+    this.$store.commit("setResults",results);
+    this.$store.commit("setColor0",color0);
+    this.$store.commit("setColor1",color1);
+    this.$store.commit("setColor2",color2);
+    this.$store.commit("setColor3",color3);
+    this.$store.commit("setFontColor",fontColor);
+    this.$store.commit("setPanelSetting",panelSetting);
+  }
 })

@@ -7,13 +7,16 @@ export default {
   game:{
     title:"15PUZZLE",
     moves:"步数",
-    scramble:"打乱"
+    scramble:"打乱",
+    inputTurtorialUrl:"输入教程地址,默认教程留空"
   },
   results:{
     title:"成绩",
     chart:"折线图",
+    chartTheme:"主题",
     chartClose:"关闭",
     exportResult:"导出成绩",
+    del:"删除",
     moves:"步"
   },
   settings:{

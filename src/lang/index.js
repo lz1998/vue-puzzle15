@@ -15,7 +15,7 @@ let getLang=function(){
   let lang=localStorage.getItem("lang");
   if(lang)return lang;
   else lang="zh";
-  return lang
+  return lang;
 }
 
 //localStorage.setItem("lang","en");

@@ -24,11 +24,12 @@
     name: "Game",
     data() {
       return{
-        color0:"rgba(243,197,0,1)",
-        color1:"rgba(31,169,93,1)",
-        color2:"rgba(39,117,167,1)",
-        color3:"rgba(234,75,53,1)",
-        fontColor:"rgba(0,0,0,1)",
+        color0:this.$store.state.color0,
+        color1:this.$store.state.color1,
+        color2:this.$store.state.color2,
+        color3:this.$store.state.color3,
+        fontColor:this.$store.state.fontColor,
+        panelSetting:this.$store.state.panelSetting,
         gameMap:[
           [1,2,3,4],
           [5,6,7,8],
@@ -44,6 +45,16 @@
         timer:null,
         isiOS:false,
         tutorialPrompt:true
+      }
+    },
+    computed:{
+      results:{
+        set(value){
+          this.$store.commit('setResults',value)
+        },
+        get(){
+          return this.$store.state.results;
+        }
       }
     },
     methods:{
@@ -165,18 +176,11 @@
           this.isScramble=false;
 
           //保存成绩
-          let results=localStorage.getItem("results");
-          if(results==null){
-            results=[];
-          }else{
-            results=JSON.parse(results);
-          }
-          results.push({
+          this.$store.commit("addResult",{
             time:this.startTime,
             result:this.result,
             moves:this.movesCount
           });
-          localStorage.setItem("results",JSON.stringify(results))
         }
         //这里不需要强制刷新界面，如果movesCount改变，会自动刷新，不改变就不需要刷新
         this.$forceUpdate();
@@ -285,7 +289,7 @@
         let tutorial=null;
         let _action="confirm";
 
-        await this.$messagebox.prompt("输入教程地址,默认教程留空").then(async ({value, action}) => {
+        await this.$messagebox.prompt(this.$t('game.inputTurtorialUrl')).then(async ({value, action}) => {
           if (value == null || value == "") {
             tutorial = require("../../turtorial/tutorial.json");
           } else {
@@ -344,9 +348,9 @@
           }
           await this.sleep(tutorial.steps[i].afterSleep);
         }
-        this.color1=localStorage.getItem("color1");
-        this.color2=localStorage.getItem("color2");
-        this.color3=localStorage.getItem("color3");
+        this.color1=this.$store.state.color1;
+        this.color2=this.$store.state.color2;
+        this.color3=this.$store.state.color3;
       }
     },
     mounted(){
@@ -364,33 +368,6 @@
       this.$once('hook:beforeDestroy', () => {
         clearInterval(timer);
       })
-      this.color0=localStorage.getItem("color0");
-      this.color1=localStorage.getItem("color1");
-      this.color2=localStorage.getItem("color2");
-      this.color3=localStorage.getItem("color3");
-      this.fontColor=localStorage.getItem("fontColor");
-      this.panelSetting=localStorage.getItem("panelSetting");
-      if(this.color0==null || this.color0==='null'){
-        this.color0="rgba(243,197,0,1)";
-        localStorage.setItem("color0",this.color0);
-      }
-      if(this.color1==null || this.color1==='null'){
-        this.color1="rgba(31,169,93,1)";
-        localStorage.setItem("color1",this.color1);
-      }
-      if(this.color2==null || this.color2==='null'){
-        this.color2="rgba(39,117,167,1)";
-        localStorage.setItem("color2",this.color2);
-      }
-      if(this.color3==null || this.color3==='null'){
-        this.color3="rgba(234,75,53,1)";
-        localStorage.setItem("color3",this.color3);
-      }
-      if(this.fontColor==null || this.fontColor==='null'){
-        this.fontColor="rgba(0,0,0,1)";
-        localStorage.setItem("fontColor",this.fontColor);
-      }
-      document.querySelector('body').setAttribute('style', 'background:'+this.color0);
       document.getElementById("game").setAttribute('style', this.panelSetting);
     }
   };

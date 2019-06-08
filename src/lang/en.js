@@ -7,13 +7,16 @@ export default {
   game:{
     title:"15PUZZLE",
     moves:"Moves",
-    scramble:"Scramble"
+    scramble:"Scramble",
+    inputTurtorialUrl:"Input turtorial url, blank default"
   },
   results:{
     title:"Results",
     chart:"Chart",
+    chartTheme:"Theme",
     chartClose:"Close",
     exportResult:"Export",
+    del:"Del",
     moves:"moves"
   },
   settings:{

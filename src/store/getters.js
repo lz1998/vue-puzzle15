@@ -1,0 +1,11 @@
+export const getLang=state=>state.lang
+export const getResults=state=>state.results
+export const getColor0=state=>state.color0
+export const getColor1=state=>state.color1
+export const getColor2=state=>state.color2
+export const getColor3=state=>state.color3
+export const getFontColor=state=>state.fontColor
+export const getPanelSetting=state=>state.panelSetting
+export const getUserid=state=>state.userid
+export const getAccess_token=state=>state.access_token
+export const getExpires_time=state=>state.expires_time

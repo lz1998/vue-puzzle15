@@ -18,7 +18,7 @@
       </div>
 
       <div class="chart-button">
-        <mt-button @click.native="changeChartTheme" class="change-theme-chart-button" type="primary" >更换主题</mt-button>
+        <mt-button @click.native="changeChartTheme" class="change-theme-chart-button" type="primary" >{{$t('results.chartTheme')}}</mt-button>
         <mt-button @click.native="chartControl" class="close-chart-button" type="primary" >{{$t('results.chartClose')}}</mt-button>
       </div>
     </div>
@@ -30,7 +30,6 @@
     name: "Results",
     data(){
       return{
-        color0:"rgba(243,197,0,1)",
         chartShow:false,
         chartData:[],
         chartThemeList:['','light','dark','infographic','macarons','roma','shine','vintage'],
@@ -273,17 +272,15 @@
     }
     },
     computed:{
-      results(){
-        let results=localStorage.getItem("results");
-        if(results==null){
-          results=[];
-        }else{
-          results=JSON.parse(results);
+      results:{
+        set(value){
+          this.$store.commit('setResults',value)
+        },
+        get(){
+          return this.$store.state.results;
         }
-        return results;
       },
     },
-
     methods:{
       resultFormat(ms){
         //格式化成绩
@@ -325,18 +322,11 @@
             }
           },
           {
-            content: '删除',
+            content: this.$t("results.del"),
             style: { background: 'red', color: '#fff',"font-size":"20px" },
             handler: () => {
-              for(let i=0;i<this.results.length;i++){
-                if(this.results[i].time==time){
-                  this.results.splice(i,1);
-                }
-              }
-              localStorage.setItem("results",JSON.stringify(this.results));
+              this.$store.commit("delResult",time);
               this.$messagebox("已删除");
-              console.log(this.results);
-              console.log(this.outputText);
               this.$forceUpdate();//强制刷新reversedResults
             }
           }
@@ -375,13 +365,6 @@
         this.chartOptions.series[2].data=arrTps;
         this.chartShow=!this.chartShow;
       }
-    },
-    mounted() {
-      this.color0=localStorage.getItem("color0");
-      if(this.color0==null || this.color0==='null'){
-        this.color0="rgba(243,197,0,1)";
-      }
-      document.querySelector('body').setAttribute('style', 'background:'+this.color0);
     }
   };
 </script>
