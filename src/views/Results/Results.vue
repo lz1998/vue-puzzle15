@@ -96,7 +96,7 @@
             data:['成绩','步数','手速'],
             selected:{
               '成绩':true,
-              '步数':true,
+              '步数':false,
               '手速':false
             },
           },
@@ -148,66 +148,72 @@
           ],
           series: [
             {
-            name: '成绩',
-            type: 'line',
-            data:[],
-            markLine: {
-              symbol:'none',
-              data: [
-                {type: 'average', name: '平均值'}
-              ],
-              label:{
-                formatter(param){
-                  let ms=parseInt(param.data.value%1000).toString();
-                  let sec=parseInt(param.data.value/1000).toString();
-                  let min=parseInt(sec/60).toString();
-                  sec=(sec%60).toString();
-                  ms=ms.length>2?ms:'0'+ms;
-                  ms=ms.length>2?ms:'0'+ms;
-                  let str='';
-                  if(min==0){
-                    str= sec+"."+ms;
+              name: '成绩',
+              type: 'line',
+              data:[],
+              markLine: {
+                symbol:'none',
+                data: [
+                  {type: 'average', name: '平均值'}
+                ],
+                label:{
+                  formatter(param){
+                    let ms=parseInt(param.data.value%1000).toString();
+                    let sec=parseInt(param.data.value/1000).toString();
+                    let min=parseInt(sec/60).toString();
+                    sec=(sec%60).toString();
+                    ms=ms.length>2?ms:'0'+ms;
+                    ms=ms.length>2?ms:'0'+ms;
+                    let str='';
+                    if(min==0){
+                      str= sec+"."+ms;
+                    }
+                    else{
+                      min=min.length>1?min:'0'+min;
+                      sec=sec.length>1?sec:'0'+sec;
+                      str= min+":"+sec+"."+ms;
+                    }
+                    return str;
                   }
-                  else{
-                    min=min.length>1?min:'0'+min;
-                    sec=sec.length>1?sec:'0'+sec;
-                    str= min+":"+sec+"."+ms;
+                }
+
+              },
+              markPoint : {
+                data : [
+                  {type : 'max', name: '最大值',symbolOffset:[0,-6],symbolRotate:180,label:{offset:[0,-15]}},
+                  {type : 'min', name: '最小值',symbolOffset:[0,6],label:{offset:[0,20]}},
+                ],
+                symbolSize:10,
+                symbol:'triangle',
+                label:{
+                  formatter(param){
+                    let ms=parseInt(param.data.value%1000).toString();
+                    let sec=parseInt(param.data.value/1000).toString();
+                    let min=parseInt(sec/60).toString();
+                    sec=(sec%60).toString();
+                    ms=ms.length>2?ms:'0'+ms;
+                    ms=ms.length>2?ms:'0'+ms;
+                    let str='';
+                    if(min==0){
+                      str= sec+"."+ms;
+                    }
+                    else{
+                      min=min.length>1?min:'0'+min;
+                      sec=sec.length>1?sec:'0'+sec;
+                      str= min+":"+sec+"."+ms;
+                    }
+                    return str;
                   }
-                  return str;
+                }
+
+              },
+              lineStyle: {
+                normal:{
+                  width:1
                 }
               }
 
             },
-            markPoint : {
-              data : [
-                {type : 'max', name: '最大值',symbolOffset:[0,-6],symbolRotate:180,label:{offset:[0,-15]}},
-                {type : 'min', name: '最小值',symbolOffset:[0,6],label:{offset:[0,20]}},
-              ],
-              symbolSize:10,
-              symbol:'triangle',
-              label:{
-                formatter(param){
-                  let ms=parseInt(param.data.value%1000).toString();
-                  let sec=parseInt(param.data.value/1000).toString();
-                  let min=parseInt(sec/60).toString();
-                  sec=(sec%60).toString();
-                  ms=ms.length>2?ms:'0'+ms;
-                  ms=ms.length>2?ms:'0'+ms;
-                  let str='';
-                  if(min==0){
-                    str= sec+"."+ms;
-                  }
-                  else{
-                    min=min.length>1?min:'0'+min;
-                    sec=sec.length>1?sec:'0'+sec;
-                    str= min+":"+sec+"."+ms;
-                  }
-                  return str;
-                }
-              }
-
-            },
-          },
             {
               name: '步数',
               type: 'line',
@@ -228,6 +234,11 @@
                 symbolSize:10,
                 symbol:'triangle',
               },
+              lineStyle: {
+                normal:{
+                  width:1
+                }
+              }
             },
             {
               name: '手速',
@@ -248,9 +259,12 @@
                 ],
                 symbolSize:10,
                 symbol:'triangle',
-
-
               },
+              lineStyle: {
+                normal:{
+                  width:1
+                }
+              }
             }
           ]
 
