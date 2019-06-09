@@ -14,10 +14,20 @@ export default {
     title:"Results",
     chart:"Chart",
     chartTheme:"Theme",
-    chartClose:"Close",
+    close:"Close",
     exportResult:"Export",
+    copied:"Copied",
+    upload:"Upload",
+    uploadResultAfterLogin:"Only the results produced after login can be uploaded",
+    uploadSuccess:"Upload Success",
+    uploadFail:"Upload Fail",
+    serverError:"Server Error",
     del:"Del",
-    moves:"moves"
+    deleted:"Deleted",
+    moves:"Moves",
+    result:"Results",
+    tps:"TPS",
+    rank:"Rank"
   },
   settings:{
     title:"Settings",
@@ -27,6 +37,10 @@ export default {
     outer:"Outer",
     font:"Font",
     other:"Other",
-    save:"Save"
+    save:"Save",
+    qqLogin:"QQLogin",
+    loginSuccess:"Login Success",
+    loginError:"Login Fail",
+    serverError:"Server Error"
   }
 }

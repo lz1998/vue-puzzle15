@@ -48,6 +48,14 @@
       }
     },
     computed:{
+      userid:{
+        set(value){
+          this.$store.commit('setUserid',value)
+        },
+        get(){
+          return this.$store.state.userid;
+        }
+      },
       results:{
         set(value){
           this.$store.commit('setResults',value)
@@ -177,6 +185,7 @@
 
           //保存成绩
           this.$store.commit("addResult",{
+            userid:this.userid,
             time:this.startTime,
             result:this.result,
             moves:this.movesCount

@@ -2,6 +2,7 @@
   <div class="results">
     <h2 style="text-align: center;">{{$t('results.title')}}</h2>
     <mt-button @click.native="chartControl" class="show-chart-button" type="primary" >{{$t('results.chart')}}</mt-button>
+    <mt-button @click.native="rankControl" class="show-rank-button" type="primary" >{{$t('results.rank')}}</mt-button>
     <mt-button v-clipboard:copy="getOutputText()" v-clipboard:success="outputSuccess" v-clipboard:error="outputError" class="output-button" type="primary" >{{$t('results.exportResult')}}</mt-button>
     <mt-cell-swipe
       v-for="result in getReversedResults()"
@@ -19,7 +20,34 @@
 
       <div class="chart-button">
         <mt-button @click.native="changeChartTheme" class="change-theme-chart-button" type="primary" >{{$t('results.chartTheme')}}</mt-button>
-        <mt-button @click.native="chartControl" class="close-chart-button" type="primary" >{{$t('results.chartClose')}}</mt-button>
+        <mt-button @click.native="chartControl" class="close-chart-button" type="primary" >{{$t('results.close')}}</mt-button>
+      </div>
+    </div>
+    <div class="rank-wrapper" v-show="rankShow">
+      <div class="rank-main">
+
+        <h2 style="text-align: center;">{{$t('results.rank')}}</h2>
+        <div class="rank-list" v-show="rankList.length!=0">
+          <div class="rank-item">
+            <div class="rank">{{$t('results.rank')}}</div>
+            <div class="figure"></div>
+            <div class="nickname"></div>
+            <div class="result">{{$t('results.result')}}</div>
+            <div class="moves">{{$t('results.moves')}}</div>
+          </div>
+          <div class="rank-item" v-for="(item,index) in rankList">
+            <div class="rank">{{index+1}}</div>
+            <div class="figure"><img :src="item.figureurl" width="40" height="40"/></div>
+            <div class="nickname">{{item.nickname}}</div>
+            <div class="result">{{resultFormat(item.result)}}</div>
+            <div class="moves">{{item.moves}}</div>
+          </div>
+          <div class="user-result">{{$t('results.result')}}:{{resultFormat(userResult.result)}}</div>
+          <div class="user-rank">{{$t('results.rank')}}:{{userRank}}</div>
+        </div>
+      </div>
+      <div class="rank-button">
+        <mt-button @click.native="rankControl" class="close-rank-button" type="primary">{{$t('results.close')}}</mt-button>
       </div>
     </div>
   </div>
@@ -60,7 +88,7 @@
                 }
               }
               for(let i=0;i<params.length;i++){
-                if(params[i].seriesName=="成绩"){
+                if(params[i].seriesName=="Result"){
                   ret+=params[i].marker+params[i].seriesName+":"+resultFormatter(params[i].data[1])+"<br/>"
                 }else{
                   ret+=params[i].marker+params[i].seriesName+":"+params[i].data[1]+"<br/>"
@@ -92,11 +120,11 @@
             labelFormatter(value){console.log(value);return value},
           },
           legend:{
-            data:['成绩','步数','手速'],
+            data:['Result','Moves','TPS'],
             selected:{
-              '成绩':true,
-              '步数':false,
-              '手速':false
+              'Result':true,
+              'Moves':false,
+              'TPS':false
             },
           },
           grid: {x:50,y: 70, x2:50, y2:60},
@@ -147,7 +175,7 @@
           ],
           series: [
             {
-              name: '成绩',
+              name: 'Result',
               type: 'line',
               data:[],
               markLine: {
@@ -214,7 +242,7 @@
 
             },
             {
-              name: '步数',
+              name: 'Moves',
               type: 'line',
               yAxisIndex:1,
               data:[],
@@ -240,7 +268,7 @@
               }
             },
             {
-              name: '手速',
+              name: 'TPS',
               type: 'line',
               yAxisIndex:2,
               data:[],
@@ -267,7 +295,11 @@
             }
           ]
 
-        }
+        },
+        rankShow:false,
+        rankList:[],
+        userResult:{},
+        userRank:-1
 
     }
     },
@@ -280,9 +312,20 @@
           return this.$store.state.results;
         }
       },
+      userid:{
+        set(value){
+          this.$store.commit('setUserid',value)
+        },
+        get(){
+          return this.$store.state.userid;
+        }
+      }
     },
     methods:{
       resultFormat(ms){
+        if(ms<=0 || ms==null){
+          return "-1";
+        }
         //格式化成绩
         let sec=parseInt(ms/1000).toString();
         ms=(ms%1000).toString();
@@ -315,10 +358,29 @@
         //查看、删除按钮
         return [
           {
-            content: '查看',
+            content: this.$t("results.upload"),
             style: { background: 'lightgray', color: '#fff' ,"font-size":"20px"},
             handler: () => {
-              this.$messagebox(this.timeFormat(time));
+              let result={};
+              for(let i=0;i<this.results.length;i++){
+                if(this.results[i].time==time){
+                  result=this.results[i];
+                }
+              }
+              console.log(result);
+              if(result.userid==null || result.userid==""){
+                this.$messagebox(this.$t("results.uploadResultAfterLogin"));
+              }else{
+                this.axios.get("/setResult",{params:result}).then(res=>{
+                  if(res.data.status==true){
+                    this.$messagebox(this.$t("results.uploadSuccess"));
+                  }else{
+                    this.$messagebox(this.$t("results.serverError"));
+                  }
+                }).catch(reason => {
+                  this.$messagebox(this.$t("results.uploadFail"));
+                })
+              }
             }
           },
           {
@@ -326,7 +388,7 @@
             style: { background: 'red', color: '#fff',"font-size":"20px" },
             handler: () => {
               this.$store.commit("delResult",time);
-              this.$messagebox("已删除");
+              this.$messagebox(this.$t("results.deleted"));
               this.$forceUpdate();//强制刷新reversedResults
             }
           }
@@ -337,7 +399,7 @@
         return JSON.stringify(this.results);
       },
       outputSuccess(){
-        this.$messagebox("已复制");
+        this.$messagebox(this.$t("results.copied"));
       },
       outputError(){
         this.$messagebox("error");
@@ -364,6 +426,36 @@
         this.chartOptions.series[1].data=arrMoves;
         this.chartOptions.series[2].data=arrTps;
         this.chartShow=!this.chartShow;
+      },
+      rankControl(){
+        this.rankShow=!this.rankShow;
+        if(this.rankShow==true){
+          //获取成绩
+          let params={
+            userid:this.userid
+          }
+          this.axios.get("/getRank",{params:params}).then(res=>{
+            let data=res.data;
+            let status=data.status;
+            if(status==true){
+              this.rankList=data.rst;
+              this.userResult=data.user_result;
+              this.userRank=data.user_rank;
+              if(this.userResult==null){
+                this.userResult={result:-1};
+              }
+              if(this.userRank==null){
+                this.userRank=-1;
+              }
+              this.$forceUpdate();
+
+            }else{
+              this.$messagebox(this.$t("results.serverError"));
+            }
+          }).catch(reason => {
+            this.$messagebox(this.$t("results.serverError"));
+          })
+        }
       }
     }
   };
@@ -405,5 +497,78 @@
       .chart-button
         margin:10px
 
+
+    .rank-wrapper
+      position :fixed
+      z-index:100
+      top:0
+      left :0
+      width :100%
+      height:100%
+      overflow :auto
+      transition: all 0.5s
+      background :rgb(255,255,255)
+      backdrop-filter :blur(10px)
+      .rank-main
+        width:100%
+        .rank-list
+          width:96%
+          margin:2%
+          .rank-item
+            width:100%
+            height:40px
+            line-height:40px
+            .rank
+              float:left
+              width:15%
+              height:40px
+              line-height:40px
+              text-align :center
+              overflow :hidden
+            .figure
+              float:left
+              width:10%
+              height:40px
+              line-height:40px
+              margin-left:10px
+              text-align :center
+              overflow :hidden
+            .nickname
+              float:left
+              width:25%
+              height:40px
+              line-height:40px
+              text-align :center
+              overflow :hidden
+            .result
+              float:left
+              width:25%
+              height:40px
+              line-height:40px
+              text-align :center
+              overflow :hidden
+            .moves
+              float:left
+              width:15%
+              height:40px
+              line-height:40px
+              text-align :center
+              overflow :hidden
+
+
+        .user-result
+          float:left
+          width:50%
+          height:30px
+          line-height :30px
+          margin:30px 5%
+        .user-rank
+          float:left
+          width:30%
+          height:30px
+          line-height :30px
+          margin:30px 5%
+      .rank-button
+        margin:10px
 
 </style>

@@ -33,6 +33,7 @@ Vue.use(VueAxios, axios);
 Vue.use(VueClipboard);
 Vue.use(MintUI);
 Vue.config.productionTip = false
+axios.defaults.baseURL="http://rank.15puzzle.cn/mobile/";
 
 /* eslint-disable no-new */
 new Vue({
@@ -55,6 +56,9 @@ new Vue({
     let color3=localStorage.getItem("color3");
     let fontColor=localStorage.getItem("fontColor");
     let panelSetting=localStorage.getItem("panelSetting");
+    let userid=localStorage.getItem("userid");
+    let access_token=localStorage.getItem("access_token");
+    let expires_time=localStorage.getItem("expires_time");
 
     this.$store.commit("setResults",results);
     this.$store.commit("setColor0",color0);
@@ -63,5 +67,8 @@ new Vue({
     this.$store.commit("setColor3",color3);
     this.$store.commit("setFontColor",fontColor);
     this.$store.commit("setPanelSetting",panelSetting);
+    this.$store.commit("setUserid",userid);
+    this.$store.commit("setAccess_token",access_token);
+    this.$store.commit("setExpires_time",expires_time);
   }
 })

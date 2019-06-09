@@ -14,10 +14,20 @@ export default {
     title:"成绩",
     chart:"折线图",
     chartTheme:"主题",
-    chartClose:"关闭",
+    close:"关闭",
     exportResult:"导出成绩",
+    copied:"已复制",
+    upload:"上传",
+    uploadResultAfterLogin:"登陆后产生的成绩才能上传",
+    uploadSuccess:"上传成功",
+    uploadFail:"上传失败",
+    serverError:"服务器错误",
     del:"删除",
-    moves:"步"
+    deleted:"已删除",
+    moves:"步",
+    result:"成绩",
+    tps:"手速",
+    rank:"排名"
   },
   settings:{
     title:"设置",
@@ -27,6 +37,11 @@ export default {
     outer:"外层",
     font:"字体",
     other:"其他",
-    save:"保存"
+    save:"保存",
+    qqLogin:"QQ登录",
+    loginSuccess:"登录成功",
+    loginError:"登录失败",
+    serverError:"服务器错误"
+
   }
 }

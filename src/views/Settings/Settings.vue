@@ -48,6 +48,7 @@
     </mt-cell>
     <mt-button @click.native="saveChange" class="save-button" type="primary">{{$t('settings.save')}}</mt-button>
     <mt-button @click.native="langChange" class="lang-button" type="primary">中文/English</mt-button>
+    <mt-button @click.native="login" class="login-button" type="primary">{{$t('settings.qqLogin')}}</mt-button>
 
   </div>
 </template>
@@ -92,6 +93,30 @@
           this.$i18n.locale="zh";
           this.lang="zh";
         }
+      },
+      login(){
+        let _this=this;
+        if(window.QQSDK==null){
+          _this.$messagebox("ERROR");
+          return;
+        }
+
+        var args = {};
+        args.client = window.QQSDK.ClientType.QQ;//QQSDK.ClientType.QQ,QQSDK.ClientType.TIM;
+        window.QQSDK.ssoLogin(function (result) {
+          _this.$store.commit("setUserid",result.userid);
+          _this.$store.commit("setAccess_token",result.access_token);
+          _this.$store.commit("setsetExpires_time",result.expires_time);
+
+          //上传用户信息
+          _this.axios.get("/setUser",{params:result}).then(res=>{
+            _this.$messagebox(_this.$t('settings.loginSuccess'));
+          }).catch(reason => {
+            _this.$messagebox(_this.$t('settings.serverError'));
+          })
+        }, function (failReason) {
+          _this.$messagebox(_this.$t('settings.loginFail'));
+        }, args);
       }
     }
   };
