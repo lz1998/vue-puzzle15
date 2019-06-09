@@ -12,6 +12,7 @@
       :key="result.time"
       class="result">
     </mt-cell-swipe>
+    <h4>{{$t('results.leftSwipePrompt')}}</h4>
 
     <div class="chart-wrapper" v-show="chartShow">
       <div class="chart-main">
@@ -45,6 +46,7 @@
           <div class="user-result">{{$t('results.result')}}:{{resultFormat(userResult.result)}}</div>
           <div class="user-rank">{{$t('results.rank')}}:{{userRank}}</div>
         </div>
+
       </div>
       <div class="rank-button">
         <mt-button @click.native="rankControl" class="close-rank-button" type="primary">{{$t('results.close')}}</mt-button>

@@ -27,7 +27,8 @@ export default {
     moves:"步",
     result:"成绩",
     tps:"手速",
-    rank:"排名"
+    rank:"排名",
+    leftSwipePrompt:"左滑上传/删除成绩"
   },
   settings:{
     title:"设置",

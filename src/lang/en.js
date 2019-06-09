@@ -22,12 +22,13 @@ export default {
     uploadSuccess:"Upload Success",
     uploadFail:"Upload Fail",
     serverError:"Server Error",
-    del:"Del",
+    del:"Delete",
     deleted:"Deleted",
     moves:"Moves",
-    result:"Results",
+    result:"Result",
     tps:"TPS",
-    rank:"Rank"
+    rank:"Rank",
+    leftSwipePrompt:"Swipe left to UPLOAD/DELETE result."
   },
   settings:{
     title:"Settings",
