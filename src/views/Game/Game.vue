@@ -433,7 +433,7 @@
           text-align: center;
       .scramble-button
         width: 40%;
-        height: 80%;
+        height: 70%;
         margin: 2vw;
         float: right;
         font-size: 6vw;

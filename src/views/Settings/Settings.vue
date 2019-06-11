@@ -124,10 +124,14 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   .save-button
-    margin:10px
+    margin:5px
     float:left
   .lang-button
-    margin:10px
+    margin:5px
+    float:left
+  .login-button
+    margin:5px
+    float:left
   .settings
     padding:10px
     padding-bottom:100px
