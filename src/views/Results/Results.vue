@@ -36,7 +36,7 @@
             <div class="result">{{$t('results.result')}}</div>
             <div class="moves">{{$t('results.moves')}}</div>
           </div>
-          <div class="rank-item" v-for="(item,index) in rankList">
+          <div class="rank-item" v-for="(item,index) in rankList" :key="item.userid">
             <div class="rank">{{index+1}}</div>
             <div class="figure"><img :src="item.figureurl" width="40" height="40"/></div>
             <div class="nickname">{{item.nickname}}</div>
@@ -50,6 +50,7 @@
       </div>
       <div class="rank-button">
         <mt-button @click.native="rankControl" class="close-rank-button" type="primary">{{$t('results.close')}}</mt-button>
+        <mt-button @click.native="rankLoad" class="more-rank-button" type="primary">{{$t('results.moreRank')}}</mt-button>
       </div>
     </div>
   </div>
@@ -300,6 +301,7 @@
         },
         rankShow:false,
         rankList:[],
+        rankPage:0,
         userResult:{},
         userRank:-1
 
@@ -432,15 +434,24 @@
       rankControl(){
         this.rankShow=!this.rankShow;
         if(this.rankShow==true){
+          this.rankList=[];
+          this.rankPage=0;
           //获取成绩
-          let params={
-            userid:this.userid
-          }
-          this.axios.get("/getRank",{params:params}).then(res=>{
-            let data=res.data;
-            let status=data.status;
-            if(status==true){
-              this.rankList=data.rst;
+          this.rankLoad();
+        }
+      },
+      rankLoad(){
+        let params={
+          userid:this.userid,
+          page:this.rankPage+1
+        }
+        this.axios.get("/getRank",{params:params}).then(res=>{
+          let data=res.data;
+          let status=data.status;
+          if(status==true){
+            if(this.rankPage<data.page){
+              this.rankPage=data.page;
+              this.rankList=this.rankList.concat(data.rst);
               this.userResult=data.user_result;
               this.userRank=data.user_rank;
               if(this.userResult==null){
@@ -450,14 +461,13 @@
                 this.userRank=-1;
               }
               this.$forceUpdate();
-
-            }else{
-              this.$messagebox(this.$t("results.serverError"));
             }
-          }).catch(reason => {
+          }else{
             this.$messagebox(this.$t("results.serverError"));
-          })
-        }
+          }
+        }).catch(reason => {
+          this.$messagebox(this.$t("results.serverError"));
+        })
       }
     }
   };

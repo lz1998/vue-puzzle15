@@ -28,6 +28,7 @@ export default {
     result:"Result",
     tps:"TPS",
     rank:"Rank",
+    moreRank:"MoreRank",
     leftSwipePrompt:"Swipe left to UPLOAD/DELETE result."
   },
   settings:{

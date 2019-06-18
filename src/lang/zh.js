@@ -28,7 +28,9 @@ export default {
     result:"成绩",
     tps:"手速",
     rank:"排名",
+    moreRank:"更多排名",
     leftSwipePrompt:"左滑上传/删除成绩"
+
   },
   settings:{
     title:"设置",
